@@ -457,8 +457,51 @@ function playWin(){
   });
 }
 
-// 時間警告音效
-function playWarn(){
+// 答題正確音效
+function playCorrect(){
+  if(!audioCtx) return;
+  const notes=[659,784,1047];
+  notes.forEach((f,i)=>{
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    const t=audioCtx.currentTime+i*0.12;
+    osc.type='sine'; osc.frequency.value=f;
+    g.gain.setValueAtTime(0.25,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
+    osc.connect(g); g.connect(masterGain);
+    osc.start(t); osc.stop(t+0.3);
+  });
+}
+
+// 答題錯誤音效
+function playWrong(){
+  if(!audioCtx) return;
+  const osc=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  osc.type='sawtooth';
+  osc.frequency.setValueAtTime(300,audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(150,audioCtx.currentTime+0.3);
+  g.gain.setValueAtTime(0.2,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
+  osc.connect(g); g.connect(masterGain);
+  osc.start(); osc.stop(audioCtx.currentTime+0.3);
+}
+
+// 過關關卡音效
+function playLevelUp(){
+  if(!audioCtx) return;
+  const notes=[523,659,784,880,1047];
+  notes.forEach((f,i)=>{
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    const t=audioCtx.currentTime+i*0.1;
+    osc.type='sine'; osc.frequency.value=f;
+    g.gain.setValueAtTime(0.28,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
+    osc.connect(g); g.connect(masterGain);
+    osc.start(t); osc.stop(t+0.5);
+  });
+}
   if(!audioCtx||isMuted) return;
   const osc=audioCtx.createOscillator();
   const g=audioCtx.createGain();
@@ -632,10 +675,12 @@ function answerQuiz(i,ans,info,btn,optsEl){
     btn.className='quiz-btn correct';
     score+=30;document.getElementById('h-score').textContent=score;
     res.innerHTML='✅ 答對了！+30分<br><small style="color:#88a">'+info+'</small>';
+    playCorrect();
   } else {
     btn.className='quiz-btn wrong';
     btns[ans].className='quiz-btn correct';
     res.innerHTML='❌ 答錯了！<br><small style="color:#88a">'+info+'</small>';
+    playWrong();
   }
   res.style.display='block';
   document.getElementById('quiz-next-btn').style.display='block';
@@ -644,6 +689,7 @@ function answerQuiz(i,ans,info,btn,optsEl){
 function afterQuiz(){
   document.getElementById('quiz-overlay').classList.remove('show');
   if(level<3){
+    playLevelUp();
     const facts=['💧 偏硅酸含量高達60mg/L，水中黃金！','🏔 水源地位於新竹橫山，被列為水源保護區。','🌿 「你喝水，我種樹」— ESG水源保護推動中！'];
     showOverlay('💧','第 '+level+' 關完成！',facts[level-1],'next','下一關 →',[]);
   } else { endGame(true); }
