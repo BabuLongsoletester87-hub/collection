@@ -561,15 +561,79 @@ function showResult(){
 
 function playAgain(){level=1;score=0;dropCount=0;showScreen('game');startLevel(1);}
 
+// ====== SHARE CARD SCREENSHOT ======
+function captureShareCard(){
+  return new Promise(resolve=>{
+    const card=document.querySelector('.share-preview');
+    const w=card.offsetWidth, h=card.offsetHeight;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <foreignObject width="${w}" height="${h}">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px;background:linear-gradient(135deg,#0f2541,#1a3e6e);padding:18px;font-family:Arial,sans-serif;color:#fff;border-radius:16px;border:2px solid #c8a84b;box-sizing:border-box;">
+          <div style="text-align:center;">
+            <div style="font-size:9px;color:#c8a84b;margin-bottom:8px;">🏆 杜拜金獎 &nbsp; 🥇 Monde Selection &nbsp; 💧 世界精品水協會</div>
+            <div style="font-size:13px;color:#cde;margin-bottom:6px;">${playerName} 的成績</div>
+            <div style="font-size:13px;color:#cde;margin-bottom:4px;">在 BabuLong 尋水冒險中拿到</div>
+            <div style="font-size:52px;font-weight:900;color:#6db8e8;line-height:1;">${score}</div>
+            <div style="font-size:11px;color:#88a;margin:4px 0 12px;">分！挑戰我吧 💧</div>
+            <div style="font-size:13px;font-weight:900;color:#c8a84b;">巴部農 BabuLong 天然鹼性礦泉水</div>
+            <div style="font-size:9px;color:#88a;margin-top:3px;">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
+            <div style="font-size:10px;color:#6db8e8;margin-top:4px;">🏪 全家便利商店 · 現正熱賣中</div>
+          </div>
+        </div>
+      </foreignObject>
+    </svg>`;
+    const blob=new Blob([svg],{type:'image/svg+xml'});
+    const url=URL.createObjectURL(blob);
+    const img=new window.Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      canvas.width=w*2; canvas.height=h*2;
+      const ctx=canvas.getContext('2d');
+      ctx.scale(2,2);
+      ctx.drawImage(img,0,0);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/png'));
+    };
+    img.src=url;
+  });
+}
+
 // ====== SHARE ======
-function shareResult(type){
-  const text=`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中\n快來挑戰我！\n\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
+const LINE_ID='@babulong';
+const IG_ID='babulongwater';
+const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中\n快來挑戰我！\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
+
+async function shareResult(type){
+  const text=SHARE_TEXT();
   if(type==='line'){
-    window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(location.href)+'&text='+encodeURIComponent(text));
+    // 複製文案 + 開啟 LINE 官方帳號
+    try{ await navigator.clipboard.writeText(text); }catch(e){}
+    const lineUrl='https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID);
+    window.open(lineUrl,'_blank');
+    setTimeout(()=>alert('📋 分享文案已複製！\n\n請在 LINE 聊天室貼上文字，一起分享給朋友 💧'),300);
   } else if(type==='ig'){
-    navigator.clipboard.writeText(text).then(()=>alert('文字已複製！請開啟 Instagram 貼至 Story 分享 💧\n\n記得加上 #BabuLong #巴部農 📸'));
+    // 產生成績卡圖片 + 開啟 IG
+    try{
+      const imgData=await captureShareCard();
+      // 下載成績卡圖片
+      const a=document.createElement('a');
+      a.href=imgData;
+      a.download='BabuLong_成績卡.png';
+      a.click();
+      await navigator.clipboard.writeText(text);
+      setTimeout(()=>{
+        window.open('https://www.instagram.com/'+IG_ID+'/','_blank');
+        alert('✅ 成績卡已下載！分享文案已複製！\n\n請開啟 Instagram Story 上傳圖片，貼上文案標記 @'+IG_ID+' 💧');
+      },300);
+    }catch(e){
+      await navigator.clipboard.writeText(text);
+      window.open('https://www.instagram.com/'+IG_ID+'/','_blank');
+      alert('📋 分享文案已複製！\n請開啟 Instagram Story 貼上文案，標記 @'+IG_ID+' 💧');
+    }
   } else {
-    navigator.clipboard.writeText(location.href+'\n\n'+text).then(()=>alert('✅ 連結與文案已複製！可貼到任何社群平台分享 💧'));
+    // 複製完整文案
+    try{ await navigator.clipboard.writeText(text); }catch(e){}
+    alert('✅ 分享文案已複製！\n\n可貼到任何社群平台，記得標記：\nIG: @'+IG_ID+'\nLINE: '+LINE_ID+' 💧');
   }
 }
 
