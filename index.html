@@ -6,32 +6,21 @@
 <title>BabuLong 巴部農 × 全家 — 尋找水源冒險</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --navy:#0f2541;--blue:#1a3e6e;--mid:#2563a8;--light:#6db8e8;
-  --gold:#c8a84b;--white:#fff;--bg:#07172a;--green:#00833e;
-}
+:root{--navy:#0f2541;--blue:#1a3e6e;--mid:#2563a8;--light:#6db8e8;--gold:#c8a84b;--white:#fff;--bg:#07172a;--green:#00833e;}
 body{background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
 .screen{display:none;width:100%;max-width:480px;min-height:100vh;flex-direction:column;align-items:center;}
 .screen.active{display:flex;}
 
-/* LOGO SVG */
-.logo-svg{font-family:Georgia,serif;font-size:28px;font-weight:900;letter-spacing:.5px;}
-.logo-natural{font-size:9px;letter-spacing:3px;color:#aac;font-family:'Segoe UI',sans-serif;font-weight:400;display:block;text-align:center;margin-bottom:2px;}
-.logo-main{color:#1a3e6e;}
-.logo-main span{color:#6db8e8;}
-.logo-mineral{font-size:10px;color:#99b;letter-spacing:1px;display:block;text-align:center;font-style:italic;}
-.logo-tagline{font-size:10px;color:#6db8e8;letter-spacing:2px;margin-top:2px;}
-
 /* HEADER */
-.brand-header{width:100%;background:linear-gradient(135deg,#020c18,#041628);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,.5);}
+.brand-header{width:100%;background:linear-gradient(135deg,#020c18,#041628);padding:20px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,.5);}
 .header-logo{display:flex;flex-direction:column;align-items:flex-start;}
 .brand-name-h{font-size:18px;font-weight:900;letter-spacing:.5px;font-family:Georgia,serif;}
 .brand-name-h span{color:var(--light);}
 .brand-sub-h{font-size:9px;color:var(--gold);letter-spacing:2px;margin-top:1px;}
 .fm-badge{background:var(--green);border-radius:16px;padding:4px 11px;font-size:10px;font-weight:800;letter-spacing:.5px;border:1px solid rgba(255,255,255,.2);}
-.logo-img{height:64px;width:auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 8px rgba(109,184,232,.4));}
+.logo-img{height:200px;width:auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 20px rgba(109,184,232,.6));}
 
-/* ===== LANDING ===== */
+/* LANDING */
 #screen-landing{justify-content:flex-start;padding-bottom:30px;}
 .hero{width:100%;background:linear-gradient(160deg,#020c18 0%,#0a1f3a 40%,#041628 100%);padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 60% 20%,rgba(109,184,232,.12) 0%,transparent 65%),radial-gradient(ellipse at 20% 80%,rgba(200,168,75,.06) 0%,transparent 50%);}
@@ -47,8 +36,15 @@ body{background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--wh
 .feat-chip strong{color:#fff;display:block;font-size:15px;font-weight:900;margin-bottom:1px;}
 
 /* FORM */
-.form-card{background:linear-gradient(160deg,#0a1f3a,#041628);border-radius:20px;padding:24px;margin:0 14px;border:1px solid rgba(200,168,75,.25);width:calc(100% - 28px);position:relative;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.form-card-wrap{margin:16px 14px 0;position:relative;border-radius:22px;padding:2px;background:linear-gradient(160deg,#0a1f3a,#041628);}
+.form-card-wrap::before{content:'';position:absolute;inset:0;border-radius:22px;padding:2px;background:linear-gradient(var(--angle,0deg),#6db8e8,#c8a84b,#6db8e8,#041628,#6db8e8);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin-border 3s linear infinite;}
+@keyframes spin-border{to{--angle:360deg;}}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
+.form-card{background:linear-gradient(160deg,#0a1f3a,#041628);border-radius:20px;padding:24px;width:100%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.4);overflow:hidden;}
 .form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--light),var(--gold),transparent);border-radius:20px 20px 0 0;}
+.form-card::after{content:'';position:absolute;width:60px;height:60px;background:radial-gradient(circle,rgba(109,184,232,.9) 0%,rgba(200,168,75,.5) 40%,transparent 70%);border-radius:50%;animation:orbit 3s linear infinite;pointer-events:none;z-index:0;filter:blur(6px);}
+@keyframes orbit{0%{top:-10px;left:calc(50% - 30px);}25%{top:calc(50% - 30px);left:calc(100% - 20px);}50%{top:calc(100% - 20px);left:calc(50% - 30px);}75%{top:calc(50% - 30px);left:-20px;}100%{top:-10px;left:calc(50% - 30px);}}
+.form-card>*{position:relative;z-index:1;}
 .form-card h2{font-size:17px;font-weight:900;margin-bottom:4px;color:#fff;font-family:Georgia,serif;}
 .form-card p{font-size:11px;color:#8ab;margin-bottom:18px;line-height:1.6;}
 .form-group{margin-bottom:14px;}
@@ -60,9 +56,9 @@ body{background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--wh
 .consent input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--gold);}
 .consent label{font-size:10px;color:#678;line-height:1.6;}
 .btn-primary{width:100%;padding:14px;border-radius:28px;border:none;background:linear-gradient(135deg,#1a5faa,#0d3d7a);color:#fff;font-size:16px;font-weight:900;cursor:pointer;letter-spacing:1.5px;transition:all .2s;box-shadow:0 4px 20px rgba(37,99,168,.5),inset 0 1px 0 rgba(255,255,255,.1);}
-.btn-primary:hover{opacity:.88;transform:translateY(-1px);box-shadow:0 6px 24px rgba(37,99,168,.6);}
+.btn-primary:hover{opacity:.88;transform:translateY(-1px);}
 
-/* ===== GAME ===== */
+/* GAME */
 #screen-game{padding:0;justify-content:flex-start;}
 #hud{width:100%;background:var(--navy);padding:7px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.4);}
 .hud-item{text-align:center;}
@@ -75,15 +71,13 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 .level-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s;}
 .level-dot.done{background:var(--gold);}
 .level-dot.active{background:var(--light);box-shadow:0 0 8px var(--light);}
-
-/* DPAD */
 #dpad{padding:8px 0 16px;display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--bg);width:100%;}
 .dpad-row{display:flex;gap:3px;}
 .dpad-btn{width:50px;height:50px;border-radius:10px;background:var(--navy);border:1.5px solid rgba(37,99,168,.5);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;-webkit-tap-highlight-color:transparent;user-select:none;}
-.dpad-btn:active,.dpad-btn.pressed{background:var(--mid);}
+.dpad-btn:active{background:var(--mid);}
 .dpad-empty{width:50px;height:50px;}
 
-/* ===== RESULT ===== */
+/* RESULT */
 #screen-result{padding-bottom:40px;}
 .result-hero{width:100%;padding:24px 18px 18px;text-align:center;background:linear-gradient(160deg,var(--navy),#07172a);}
 .result-emoji{font-size:56px;margin-bottom:8px;}
@@ -91,8 +85,6 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 .result-hero p{font-size:12px;color:#cde;}
 .awards-strip{display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap;}
 .award-mini{background:rgba(200,168,75,.15);border:1px solid var(--gold);border-radius:10px;padding:3px 8px;font-size:9px;color:var(--gold);}
-
-/* SCORE CARD */
 .score-card{margin:12px 14px 0;background:var(--navy);border-radius:16px;border:1px solid rgba(109,184,232,.25);overflow:hidden;width:calc(100% - 28px);}
 .score-card-header{background:rgba(37,99,168,.3);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.3);}
 .score-card-header .title{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.5px;}
@@ -101,41 +93,28 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 .stat-row:last-child{border:none;}
 .stat-label{font-size:12px;color:#88a;}
 .stat-val{font-size:14px;font-weight:800;color:#fff;}
-
-/* SHARE CARD */
 .share-preview{margin:12px 14px 0;background:linear-gradient(135deg,#0f2541,#1a3e6e);border-radius:16px;border:2px solid var(--gold);padding:18px;text-align:center;width:calc(100% - 28px);position:relative;overflow:hidden;}
 .share-preview::after{content:'💧';font-size:90px;position:absolute;right:-15px;bottom:-15px;opacity:.07;}
 .sp-awards{display:flex;justify-content:center;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
 .sp-award{background:rgba(200,168,75,.2);border:1px solid var(--gold);border-radius:8px;padding:2px 7px;font-size:8px;color:var(--gold);}
-.sp-name{font-size:13px;color:#cde;margin-bottom:6px;}
 .sp-score{font-size:46px;font-weight:900;color:var(--light);line-height:1;}
 .sp-sub{font-size:11px;color:#88a;margin-top:3px;margin-bottom:12px;}
 .sp-brand{font-size:13px;font-weight:900;color:var(--gold);font-family:Georgia,serif;}
 .sp-tag{font-size:9px;color:#88a;letter-spacing:1px;margin-top:2px;}
 .sp-fm{font-size:10px;color:var(--light);margin-top:4px;}
-
-/* SHARE BTNS */
-.share-btns{display:flex;gap:8px;margin:10px 14px 0;width:calc(100% - 28px);}
-.btn-share{flex:1;padding:11px 4px;border-radius:12px;border:none;font-size:12px;font-weight:800;cursor:pointer;transition:opacity .2s;letter-spacing:.3px;}
-.btn-line{background:#06c755;color:#fff;}
-.btn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff;}
-.btn-copy{background:var(--navy);color:var(--light);border:1px solid var(--mid);}
-.btn-share:hover{opacity:.82;}
-
-/* BUY CTA */
-.buy-cta{margin:10px 14px 0;width:calc(100% - 28px);background:linear-gradient(135deg,#006430,#00502a);border-radius:16px;padding:18px;text-align:center;box-shadow:0 4px 20px rgba(0,131,62,.25);border:1px solid rgba(255,255,255,.1);}
-.buy-cta h3{font-size:17px;font-weight:900;margin-bottom:6px;}
-.buy-cta p{font-size:12px;color:rgba(255,255,255,.82);margin-bottom:14px;line-height:1.7;}
-.btn-buy{width:100%;padding:13px;border-radius:28px;border:none;background:#fff;color:#006430;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:.5px;transition:opacity .2s;box-shadow:0 4px 16px rgba(0,0,0,.2);}
-.btn-buy:hover{opacity:.9;}
-
-/* FACTS */
 .facts-row{display:flex;gap:8px;margin:10px 14px 0;width:calc(100% - 28px);}
 .fact-chip{flex:1;background:var(--navy);border:1px solid rgba(109,184,232,.25);border-radius:12px;padding:10px 6px;text-align:center;font-size:10px;color:#aac;line-height:1.4;}
 .fact-chip strong{display:block;font-size:13px;color:var(--light);margin-bottom:2px;}
-
-.btn-play-again{margin:12px 14px 0;width:calc(100% - 28px);padding:11px;border-radius:28px;border:1.5px solid rgba(37,99,168,.5);background:transparent;color:var(--light);font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;}
-.btn-play-again:hover{background:rgba(37,99,168,.2);}
+.share-btns{display:flex;gap:8px;margin:10px 14px 0;width:calc(100% - 28px);}
+.btn-share{flex:1;padding:11px 4px;border-radius:12px;border:none;font-size:12px;font-weight:800;cursor:pointer;transition:opacity .2s;}
+.btn-line{background:#06c755;color:#fff;}
+.btn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff;}
+.btn-copy{background:var(--navy);color:var(--light);border:1px solid var(--mid);}
+.buy-cta{margin:10px 14px 0;width:calc(100% - 28px);background:linear-gradient(135deg,#006430,#00502a);border-radius:16px;padding:18px;text-align:center;box-shadow:0 4px 20px rgba(0,131,62,.25);border:1px solid rgba(255,255,255,.1);}
+.buy-cta h3{font-size:17px;font-weight:900;margin-bottom:6px;}
+.buy-cta p{font-size:12px;color:rgba(255,255,255,.82);margin-bottom:14px;line-height:1.7;}
+.btn-buy{width:100%;padding:13px;border-radius:28px;border:none;background:#fff;color:#006430;font-size:15px;font-weight:900;cursor:pointer;transition:opacity .2s;}
+.btn-play-again{margin:12px 14px 0;width:calc(100% - 28px);padding:11px;border-radius:28px;border:1.5px solid rgba(37,99,168,.5);background:transparent;color:var(--light);font-size:14px;font-weight:700;cursor:pointer;}
 
 /* OVERLAY */
 #overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,23,42,.95);z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
@@ -146,13 +125,12 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 .ov-facts{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
 .ov-fact{background:rgba(37,99,168,.3);border:1px solid var(--mid);border-radius:10px;padding:6px 10px;font-size:11px;color:var(--light);}
 
-/* QUIZ OVERLAY */
+/* QUIZ */
 #quiz-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,23,42,.97);z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
 #quiz-overlay.show{display:flex;}
 .quiz-q{font-size:16px;font-weight:700;color:#fff;margin-bottom:18px;line-height:1.6;}
 .quiz-opts{display:flex;flex-direction:column;gap:9px;width:100%;max-width:340px;margin-bottom:16px;}
 .quiz-btn{padding:12px;border-radius:12px;border:1.5px solid var(--mid);background:rgba(37,99,168,.2);color:#fff;font-size:13px;cursor:pointer;transition:background .15s;text-align:left;}
-.quiz-btn:hover{background:rgba(37,99,168,.4);}
 .quiz-btn.correct{background:rgba(0,131,62,.4);border-color:#00c060;color:#a0ffc0;}
 .quiz-btn.wrong{background:rgba(180,30,30,.4);border-color:#e05050;color:#ffa0a0;}
 .quiz-result{font-size:14px;margin-bottom:14px;color:var(--light);line-height:1.6;display:none;}
@@ -160,22 +138,18 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 </head>
 <body>
 
-<!-- ===== SCREEN 1: LANDING ===== -->
+<!-- SCREEN 1: LANDING -->
 <div id="screen-landing" class="screen active">
   <div class="brand-header">
     <div class="header-logo">
       <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
       <div id="logo-fallback" style="display:none">
-        <span class="logo-natural">NATURAL</span>
         <div class="brand-name-h">Babu<span>Long</span></div>
-        <span class="logo-mineral">Mineral Water · 巴部農天然鹼性礦泉水</span>
+        <span class="brand-sub-h">天然鹼性礦泉水</span>
       </div>
     </div>
     <div class="fm-badge">🏪 全家 FamilyMart</div>
   </div>
-  <style>
-  .logo-img{height:48px;width:auto;object-fit:contain;}
-  </style>
   <div class="hero">
     <div class="launch-badge">🎉 全家便利商店 全台上架中</div>
     <div class="award-row">
@@ -217,15 +191,17 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
   </div>
 </div>
 
-<!-- ===== SCREEN 2: GAME ===== -->
+<!-- SCREEN 2: GAME -->
 <div id="screen-game" class="screen">
   <div class="brand-header">
     <div class="header-logo">
-      <div class="brand-name-h" style="font-size:16px;">Babu<span>Long</span> 巴部農</div>
-      <span class="brand-sub-h">台灣唯一火山岩礦泉水</span>
+      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:48px;" onerror="this.style.display='none'">
+      <div class="brand-name-h" style="font-size:14px;display:none">Babu<span>Long</span></div>
     </div>
-    <div class="fm-badge">全家上架中</div>
-    <button id="mute-btn" onclick="toggleMute()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;color:#fff;font-size:14px;cursor:pointer;">🔊</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="fm-badge">全家上架中</div>
+      <button id="mute-btn" onclick="toggleMute()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;color:#fff;font-size:14px;cursor:pointer;">🔊</button>
+    </div>
   </div>
   <div id="hud">
     <div class="hud-item"><div class="hud-label">⏱ 時間</div><div class="hud-val" id="h-time">60</div></div>
@@ -243,7 +219,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
   <div id="dpad">
     <div class="dpad-row">
       <div class="dpad-empty"></div>
-      <div class="dpad-btn" ontouchstart="e=>{e.preventDefault();move(0,-1)}" onclick="move(0,-1)">▲</div>
+      <div class="dpad-btn" onclick="move(0,-1)">▲</div>
       <div class="dpad-empty"></div>
     </div>
     <div class="dpad-row">
@@ -259,12 +235,11 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
   </div>
 </div>
 
-<!-- ===== SCREEN 3: RESULT ===== -->
+<!-- SCREEN 3: RESULT -->
 <div id="screen-result" class="screen">
   <div class="brand-header">
     <div class="header-logo">
-      <div class="brand-name-h" style="font-size:16px;">Babu<span>Long</span> 巴部農</div>
-      <span class="brand-sub-h">台灣唯一火山岩礦泉水</span>
+      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:48px;" onerror="this.style.display='none'">
     </div>
     <div class="fm-badge">全家上架中</div>
   </div>
@@ -278,8 +253,6 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
       <div class="award-mini">💧 世界精品水協會</div>
     </div>
   </div>
-
-  <!-- Score Card -->
   <div class="score-card">
     <div class="score-card-header">
       <div class="title">📊 冒險成績單</div>
@@ -292,48 +265,39 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
       <div class="stat-row"><span class="stat-label">🗺 完成關卡</span><span class="stat-val" id="r-levels">-</span></div>
     </div>
   </div>
-
-  <!-- Quick Facts -->
   <div class="facts-row">
-    <div class="fact-chip"><strong>pH 9.0</strong>天然鹼性<br>非電解人工</div>
-    <div class="fact-chip"><strong>4510年</strong>水齡認證<br>C14定年測定</div>
-    <div class="fact-chip"><strong>ORP -84</strong>天然抗氧化<br>超低電位水</div>
+    <div class="fact-chip"><strong>pH 9.0</strong>天然鹼性</div>
+    <div class="fact-chip"><strong>4510年</strong>水齡認證</div>
+    <div class="fact-chip"><strong>ORP -84</strong>天然抗氧化</div>
   </div>
-
-  <!-- Share Card -->
   <div class="share-preview">
     <div class="sp-awards">
       <div class="sp-award">🏆 杜拜金獎</div>
       <div class="sp-award">🥇 Monde Selection</div>
       <div class="sp-award">💧 世界精品水協會</div>
     </div>
-    <div class="sp-name" id="sp-name">我</div>
-    <div style="font-size:13px;color:#cde;margin-bottom:6px;">在 BabuLong 尋水冒險中拿到</div>
+    <div style="font-size:13px;color:#cde;margin-bottom:4px;" id="sp-name">我的成績</div>
+    <div style="font-size:12px;color:#cde;margin-bottom:6px;">在 BabuLong 尋水冒險中拿到</div>
     <div class="sp-score" id="sp-score">0</div>
     <div class="sp-sub">分！挑戰我吧 💧</div>
     <div class="sp-brand">巴部農 BabuLong 天然鹼性礦泉水</div>
     <div class="sp-tag">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
     <div class="sp-fm">🏪 全家便利商店 · 現正熱賣中</div>
   </div>
-
-  <!-- Share Buttons -->
   <div class="share-btns">
     <button class="btn-share btn-line" onclick="shareResult('line')">LINE 分享</button>
     <button class="btn-share btn-ig" onclick="shareResult('ig')">IG Story</button>
     <button class="btn-share btn-copy" onclick="shareResult('copy')">複製連結</button>
   </div>
-
-  <!-- Buy CTA -->
   <div class="buy-cta">
     <h3>💚 立即前往全家購買！</h3>
     <p>BabuLong 巴部農天然鹼性礦泉水<br>🏔 台灣唯一火山岩礦泉水 · pH9.0天然鹼性<br>🏆 杜拜國際金獎 · Monde Selection特級金獎<br>💧 水中黃金「偏硅酸」含量高達60mg/L</p>
     <button class="btn-buy" onclick="goFamilyMart()">🏪 找附近的全家門市</button>
   </div>
-
   <button class="btn-play-again" onclick="playAgain()">🔄 再玩一次</button>
 </div>
 
-<!-- LEVEL COMPLETE OVERLAY -->
+<!-- OVERLAY -->
 <div id="overlay">
   <div class="ov-icon" id="ov-icon">💧</div>
   <h2 id="ov-title"></h2>
@@ -354,7 +318,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 
 <script>
 // ====== AUDIO ENGINE ======
-let audioCtx=null, masterGain=null, isMuted=false;
+let audioCtx=null,masterGain=null,isMuted=false;
 
 function initAudio(){
   if(audioCtx) return;
@@ -371,10 +335,8 @@ function toggleMute(){
   document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';
 }
 
-// 水流環境音 — 白噪音 + 濾波
 function playAmbient(){
   if(!audioCtx) return;
-  // 白噪音水流
   const bufSize=audioCtx.sampleRate*4;
   const buf=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
   const data=buf.getChannelData(0);
@@ -386,36 +348,30 @@ function playAmbient(){
   const lp=audioCtx.createBiquadFilter();
   lp.type='lowpass'; lp.frequency.value=900;
   const g=audioCtx.createGain(); g.gain.value=0.35;
-  // 水流起伏 LFO
   const lfo=audioCtx.createOscillator();
   const lfoG=audioCtx.createGain(); lfoG.gain.value=180;
   lfo.frequency.value=0.18; lfo.connect(lfoG); lfoG.connect(bp.frequency);
   lfo.start();
   src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(masterGain);
   src.start();
-  // 水滴音符旋律
   playMelody();
 }
 
-// 水晶音符旋律
 function playMelody(){
   if(!audioCtx) return;
-  // 水的五聲音階 (Hz)
   const notes=[523,659,784,880,1047,784,659,523,587,698,880,698,587];
   let t=audioCtx.currentTime+0.5;
   function scheduleNote(i){
-    if(!audioCtx||isMuted&&masterGain.gain.value===0) return;
+    if(!audioCtx) return;
     const freq=notes[i%notes.length];
     const osc=audioCtx.createOscillator();
     const env=audioCtx.createGain();
-    const reverb=audioCtx.createConvolver();
-    // 簡易 reverb impulse
     const irLen=audioCtx.sampleRate*1.2;
     const ir=audioCtx.createBuffer(2,irLen,audioCtx.sampleRate);
     for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let j=0;j<irLen;j++)d[j]=(Math.random()*2-1)*Math.pow(1-j/irLen,2);}
+    const reverb=audioCtx.createConvolver();
     reverb.buffer=ir;
-    osc.type='sine';
-    osc.frequency.value=freq;
+    osc.type='sine'; osc.frequency.value=freq;
     env.gain.setValueAtTime(0,t);
     env.gain.linearRampToValueAtTime(0.22,t+0.04);
     env.gain.exponentialRampToValueAtTime(0.001,t+1.2);
@@ -428,7 +384,6 @@ function playMelody(){
   scheduleNote(0);
 }
 
-// 收集水滴音效
 function playCoin(){
   if(!audioCtx||isMuted) return;
   const osc=audioCtx.createOscillator();
@@ -441,11 +396,9 @@ function playCoin(){
   osc.start(); osc.stop(audioCtx.currentTime+0.2);
 }
 
-// 過關音效
 function playWin(){
   if(!audioCtx) return;
-  const notes=[523,659,784,1047];
-  notes.forEach((f,i)=>{
+  [523,659,784,1047].forEach((f,i)=>{
     const osc=audioCtx.createOscillator();
     const g=audioCtx.createGain();
     const t=audioCtx.currentTime+i*0.15;
@@ -457,11 +410,20 @@ function playWin(){
   });
 }
 
-// 答題正確音效
+function playWarn(){
+  if(!audioCtx||isMuted) return;
+  const osc=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  osc.type='square'; osc.frequency.value=220;
+  g.gain.setValueAtTime(0.08,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);
+  osc.connect(g); g.connect(masterGain);
+  osc.start(); osc.stop(audioCtx.currentTime+0.15);
+}
+
 function playCorrect(){
   if(!audioCtx) return;
-  const notes=[659,784,1047];
-  notes.forEach((f,i)=>{
+  [659,784,1047].forEach((f,i)=>{
     const osc=audioCtx.createOscillator();
     const g=audioCtx.createGain();
     const t=audioCtx.currentTime+i*0.12;
@@ -473,7 +435,6 @@ function playCorrect(){
   });
 }
 
-// 答題錯誤音效
 function playWrong(){
   if(!audioCtx) return;
   const osc=audioCtx.createOscillator();
@@ -487,11 +448,9 @@ function playWrong(){
   osc.start(); osc.stop(audioCtx.currentTime+0.3);
 }
 
-// 過關關卡音效
 function playLevelUp(){
   if(!audioCtx) return;
-  const notes=[523,659,784,880,1047];
-  notes.forEach((f,i)=>{
+  [523,659,784,880,1047].forEach((f,i)=>{
     const osc=audioCtx.createOscillator();
     const g=audioCtx.createGain();
     const t=audioCtx.currentTime+i*0.1;
@@ -502,51 +461,26 @@ function playLevelUp(){
     osc.start(t); osc.stop(t+0.5);
   });
 }
-  if(!audioCtx||isMuted) return;
-  const osc=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  osc.type='square'; osc.frequency.value=220;
-  g.gain.setValueAtTime(0.08,audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(); osc.stop(audioCtx.currentTime+0.15);
-}
 
-// ====== CONFIG — 貼上你的 Apps Script 網址 ======
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
+// ====== CONFIG ======
+const SHEET_URL='https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
+const LINE_ID='@babulong';
+const IG_ID='babulongwater';
 
 // ====== STATE ======
-let playerName='', playerPhone='', playerEmail='';
-let level=1, score=0, dropCount=0, timeLeft=60, gameActive=false;
-let player, drops, maze, goalPos, timerInt, overlayMode='';
-
-// ====== 送出名單到 Google Sheet ======
-function submitToSheet(finalScore, finalDrops, finalLevels, finalTime) {
-  if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
-  const params = new URLSearchParams({
-    name: playerName,
-    phone: playerPhone,
-    email: playerEmail,
-    score: finalScore,
-    drops: finalDrops,
-    levels: finalLevels + ' / 3 關',
-    timeLeft: finalTime,
-    platform: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-    consent: 'true'
-  });
-  // 用 Image ping 繞過 CORS，Google Apps Script GET 接收
-  new Image().src = SHEET_URL + '?' + params.toString();
-}
+let playerName='',playerPhone='',playerEmail='';
+let level=1,score=0,dropCount=0,timeLeft=60,gameActive=false;
+let player,drops,maze,goalPos,timerInt,overlayMode='';
 
 const LEVELS=[
-  {cols:13,rows:13,drops:6,time:60,name:'新竹橫山水源地',fact:'4500年水齡，玄武岩層精粹！'},
-  {cols:15,rows:15,drops:9,time:70,name:'火山岩礦脈探索',fact:'天然鹼性 pH9.0，含10+種礦物質！'},
-  {cols:17,rows:17,drops:12,time:80,name:'巴部農純淨水源',fact:'ORP -84，天然抗氧化超低電位水！'},
+  {cols:13,rows:13,drops:6,time:60,name:'新竹橫山水源地'},
+  {cols:15,rows:15,drops:9,time:70,name:'火山岩礦脈探索'},
+  {cols:17,rows:17,drops:12,time:80,name:'巴部農純淨水源'},
 ];
 
 const QUIZZES=[
   {q:'巴部農礦泉水的水齡大約是多少年？',opts:['約100年','約1000年','約4500年','約200年'],ans:2,info:'經C14加速器質譜儀定年，水齡達4510年！'},
-  {q:'巴部農礦泉水是台灣唯一什麼類型的礦泉水？',opts:['冰川礦泉水','火山岩礦泉水','地下湖礦泉水','海洋深層水'],ans:1,info:'台灣上百家水廠，符合CNS12700的僅4家，巴部農是唯一火山岩礦泉水！'},
+  {q:'巴部農是台灣唯一什麼類型的礦泉水？',opts:['冰川礦泉水','火山岩礦泉水','地下湖礦泉水','海洋深層水'],ans:1,info:'台灣上百家水廠，符合CNS12700的僅4家，巴部農是唯一火山岩礦泉水！'},
   {q:'巴部農的pH值是多少？',opts:['pH 7.0','pH 7.5','pH 8.5','pH 9.0'],ans:3,info:'天然鹼性pH9.0，非電解人工鹼水！'},
 ];
 
@@ -556,7 +490,12 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 
-// ====== REGISTER ======
+function submitToSheet(finalScore,finalDrops,finalLevels,finalTime){
+  if(!SHEET_URL) return;
+  const params=new URLSearchParams({name:playerName,phone:playerPhone,email:playerEmail,score:finalScore,drops:finalDrops,levels:finalLevels+' / 3 關',timeLeft:finalTime,platform:/Mobi|Android/i.test(navigator.userAgent)?'Mobile':'Desktop',consent:'true'});
+  new Image().src=SHEET_URL+'?'+params.toString();
+}
+
 function doRegister(){
   const name=document.getElementById('inp-name').value.trim();
   const phone=document.getElementById('inp-phone').value.trim();
@@ -572,7 +511,6 @@ function doRegister(){
   startLevel(1);
 }
 
-// ====== MAZE ======
 function genMaze(cols,rows){
   const w=Array.from({length:rows},()=>Array(cols).fill(1));
   function carve(x,y){
@@ -592,7 +530,6 @@ function startLevel(lvl){
   const maxW=Math.min(wrap.clientWidth-12,480);
   const cell=Math.floor(maxW/cfg.cols);
   C.width=cell*cfg.cols; C.height=cell*cfg.rows; C._cell=cell;
-
   maze=genMaze(cfg.cols,cfg.rows);
   player={x:1,y:1};
   goalPos={x:cfg.cols-2,y:cfg.rows-2};
@@ -606,22 +543,15 @@ function startLevel(lvl){
   timeLeft=cfg.time;
   document.getElementById('h-time').textContent=timeLeft;
   document.getElementById('h-time').className='hud-val';
-  updateLevelUI(lvl);
+  for(let i=1;i<=3;i++) document.getElementById('ld'+i).className='level-dot'+(i<lvl?' done':i===lvl?' active':'');
+  document.getElementById('lvl-txt').textContent=lvl+' / 3 · '+LEVELS[lvl-1].name;
   clearInterval(timerInt);
   timerInt=setInterval(tick,1000);
   gameActive=true; draw();
 }
 
-function updateLevelUI(lvl){
-  for(let i=1;i<=3;i++){
-    document.getElementById('ld'+i).className='level-dot'+(i<lvl?' done':i===lvl?' active':'');
-  }
-  const names=['新竹橫山水源地','火山岩礦脈探索','巴部農純淨水源'];
-  document.getElementById('lvl-txt').textContent=lvl+' / 3 · '+names[lvl-1];
-}
-
 function tick(){
-  if(!gameActive)return;
+  if(!gameActive) return;
   timeLeft--;
   const el=document.getElementById('h-time');
   el.textContent=timeLeft;
@@ -631,23 +561,21 @@ function tick(){
 }
 
 function move(dx,dy){
-  if(!gameActive)return;
+  if(!gameActive) return;
   const cfg=LEVELS[level-1];
   const nx=player.x+dx,ny=player.y+dy;
-  if(nx<0||ny<0||nx>=cfg.cols||ny>=cfg.rows||maze[ny][nx]===1)return;
-  player.x=nx;player.y=ny;
+  if(nx<0||ny<0||nx>=cfg.cols||ny>=cfg.rows||maze[ny][nx]===1) return;
+  player.x=nx; player.y=ny;
   const di=drops.findIndex(d=>d.x===nx&&d.y===ny);
   if(di!==-1){drops.splice(di,1);dropCount++;score+=10;document.getElementById('h-drops').textContent=dropCount;document.getElementById('h-score').textContent=score;playCoin();}
   if(nx===goalPos.x&&ny===goalPos.y){
     gameActive=false;clearInterval(timerInt);
     score+=timeLeft*2;document.getElementById('h-score').textContent=score;
-    showQuiz(level-1);
-    return;
+    showQuiz(level-1); return;
   }
   draw();
 }
 
-// ====== QUIZ ======
 let quizAnswered=false;
 function showQuiz(qi){
   const q=QUIZZES[qi];
@@ -667,7 +595,7 @@ function showQuiz(qi){
 }
 
 function answerQuiz(i,ans,info,btn,optsEl){
-  if(quizAnswered)return; quizAnswered=true;
+  if(quizAnswered) return; quizAnswered=true;
   const btns=optsEl.querySelectorAll('.quiz-btn');
   btns.forEach((b,idx)=>{b.style.pointerEvents='none';if(idx===ans)b.className='quiz-btn correct';});
   const res=document.getElementById('quiz-result');
@@ -699,8 +627,7 @@ function endGame(win){
   gameActive=false;clearInterval(timerInt);
   if(win){
     playWin();
-    const wFacts=['🏆 杜拜國際風味評鑑 亞洲唯一金獎','🥇 Monde Selection 世界品質評鑑特級金獎','💧 世界精品水協會認證 台灣唯一'];
-    showOverlay('🏆','恭喜找到純淨水源！','你已成為巴部農水源守護者！\n查看你的冒險成績 💧','result','查看成績單',wFacts);
+    showOverlay('🏆','恭喜找到純淨水源！','你已成為巴部農水源守護者！\n查看你的冒險成績 💧','result','查看成績單',['🏆 杜拜國際風味評鑑 亞洲唯一金獎','🥇 Monde Selection 特級金獎','💧 世界精品水協會認證 台灣唯一']);
   } else {
     showOverlay('⏱','時間到了！','差一點就找到水源了，再試一次吧！\n全家便利商店有賣巴部農，補充能量繼續！','retry','再玩一次',[]);
   }
@@ -712,10 +639,10 @@ function showOverlay(icon,title,body,action,btnTxt,facts){
   document.getElementById('ov-title').textContent=title;
   document.getElementById('ov-body').textContent=body;
   document.getElementById('ov-btn').textContent=btnTxt;
-  const factsEl=document.getElementById('ov-facts');
-  factsEl.innerHTML=facts.map(f=>`<div class="ov-fact">${f}</div>`).join('');
+  document.getElementById('ov-facts').innerHTML=facts.map(f=>`<div class="ov-fact">${f}</div>`).join('');
   document.getElementById('overlay').classList.add('show');
 }
+
 function overlayAction(){
   document.getElementById('overlay').classList.remove('show');
   if(overlayMode==='next'){level++;startLevel(level);}
@@ -723,9 +650,8 @@ function overlayAction(){
   else if(overlayMode==='retry'){level=1;score=0;dropCount=0;startLevel(1);}
 }
 
-// ====== RESULT ======
 function showResult(){
-  submitToSheet(score, dropCount, level, timeLeft);
+  submitToSheet(score,dropCount,level,timeLeft);
   showScreen('result');
   document.getElementById('r-playername').textContent=playerName;
   document.getElementById('sp-name').textContent=playerName+'的成績';
@@ -738,87 +664,26 @@ function showResult(){
 
 function playAgain(){level=1;score=0;dropCount=0;showScreen('game');startLevel(1);}
 
-// ====== SHARE CARD SCREENSHOT ======
-function captureShareCard(){
-  return new Promise(resolve=>{
-    const card=document.querySelector('.share-preview');
-    const w=card.offsetWidth, h=card.offsetHeight;
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-      <foreignObject width="${w}" height="${h}">
-        <div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px;background:linear-gradient(135deg,#0f2541,#1a3e6e);padding:18px;font-family:Arial,sans-serif;color:#fff;border-radius:16px;border:2px solid #c8a84b;box-sizing:border-box;">
-          <div style="text-align:center;">
-            <div style="font-size:9px;color:#c8a84b;margin-bottom:8px;">🏆 杜拜金獎 &nbsp; 🥇 Monde Selection &nbsp; 💧 世界精品水協會</div>
-            <div style="font-size:13px;color:#cde;margin-bottom:6px;">${playerName} 的成績</div>
-            <div style="font-size:13px;color:#cde;margin-bottom:4px;">在 BabuLong 尋水冒險中拿到</div>
-            <div style="font-size:52px;font-weight:900;color:#6db8e8;line-height:1;">${score}</div>
-            <div style="font-size:11px;color:#88a;margin:4px 0 12px;">分！挑戰我吧 💧</div>
-            <div style="font-size:13px;font-weight:900;color:#c8a84b;">巴部農 BabuLong 天然鹼性礦泉水</div>
-            <div style="font-size:9px;color:#88a;margin-top:3px;">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
-            <div style="font-size:10px;color:#6db8e8;margin-top:4px;">🏪 全家便利商店 · 現正熱賣中</div>
-          </div>
-        </div>
-      </foreignObject>
-    </svg>`;
-    const blob=new Blob([svg],{type:'image/svg+xml'});
-    const url=URL.createObjectURL(blob);
-    const img=new window.Image();
-    img.onload=()=>{
-      const canvas=document.createElement('canvas');
-      canvas.width=w*2; canvas.height=h*2;
-      const ctx=canvas.getContext('2d');
-      ctx.scale(2,2);
-      ctx.drawImage(img,0,0);
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL('image/png'));
-    };
-    img.src=url;
-  });
-}
-
-// ====== SHARE ======
-const LINE_ID='@babulong';
-const IG_ID='babulongwater';
-const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中\n快來挑戰我！\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
+const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中！快來挑戰我！\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
 
 async function shareResult(type){
   const text=SHARE_TEXT();
   if(type==='line'){
-    // 複製文案 + 開啟 LINE 官方帳號
-    try{ await navigator.clipboard.writeText(text); }catch(e){}
-    const lineUrl='https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID);
-    window.open(lineUrl,'_blank');
-    setTimeout(()=>alert('📋 分享文案已複製！\n\n請在 LINE 聊天室貼上文字，一起分享給朋友 💧'),300);
+    try{await navigator.clipboard.writeText(text);}catch(e){}
+    window.open('https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID),'_blank');
+    setTimeout(()=>alert('📋 分享文案已複製！\n請在 LINE 貼上文字分享給朋友 💧'),300);
   } else if(type==='ig'){
-    // 產生成績卡圖片 + 開啟 IG
-    try{
-      const imgData=await captureShareCard();
-      // 下載成績卡圖片
-      const a=document.createElement('a');
-      a.href=imgData;
-      a.download='BabuLong_成績卡.png';
-      a.click();
-      await navigator.clipboard.writeText(text);
-      setTimeout(()=>{
-        window.open('https://www.instagram.com/'+IG_ID+'/','_blank');
-        alert('✅ 成績卡已下載！分享文案已複製！\n\n請開啟 Instagram Story 上傳圖片，貼上文案標記 @'+IG_ID+' 💧');
-      },300);
-    }catch(e){
-      await navigator.clipboard.writeText(text);
-      window.open('https://www.instagram.com/'+IG_ID+'/','_blank');
-      alert('📋 分享文案已複製！\n請開啟 Instagram Story 貼上文案，標記 @'+IG_ID+' 💧');
-    }
+    try{await navigator.clipboard.writeText(text);}catch(e){}
+    alert('📋 分享文案已複製！\n\n請開啟 Instagram → 新增 Story → 貼上文案並標記 @babulongwater 💧');
+    window.open('https://www.instagram.com/babulongwater/','_blank');
   } else {
-    // 複製完整文案
-    try{ await navigator.clipboard.writeText(text); }catch(e){}
-    alert('✅ 分享文案已複製！\n\n可貼到任何社群平台，記得標記：\nIG: @'+IG_ID+'\nLINE: '+LINE_ID+' 💧');
+    try{await navigator.clipboard.writeText(text);}catch(e){}
+    alert('✅ 文案已複製！可貼到任何社群平台 💧');
   }
 }
 
-function goFamilyMart(){
-  window.open('https://maps.google.com/?q=全家便利商店+附近','_blank');
-}
+function goFamilyMart(){window.open('https://maps.google.com/?q=全家便利商店+附近','_blank');}
 
-// ====== DRAW ======
 function draw(){
   const C=document.getElementById('gc');
   const ctx=C.getContext('2d');
@@ -842,14 +707,12 @@ function draw(){
   ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText('🏁',goalPos.x*cell+cell/2,goalPos.y*cell+cell/2);
   drops.forEach(d=>ctx.fillText('💧',d.x*cell+cell/2,d.y*cell+cell/2));
-  // Player: simple circle
   ctx.beginPath();
   ctx.arc(player.x*cell+cell/2,player.y*cell+cell/2,cell*.32,0,Math.PI*2);
   ctx.fillStyle='#6db8e8';ctx.fill();
   ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
 }
 
-// ====== KEYBOARD ======
 document.addEventListener('keydown',e=>{
   const m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
   const dir=m[e.key];
