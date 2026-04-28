@@ -192,6 +192,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
       <div class="feat-chip"><strong>10+種</strong>礦物質</div>
     </div>
   </div>
+  <div class="form-card-wrap">
   <div class="form-card">
     <h2>🗺 登錄解鎖冒險</h2>
     <p>填寫資料即可開始遊戲，同時獲得巴部農全家上架優惠通知</p>
@@ -213,6 +214,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
     </div>
     <button class="btn-primary" onclick="doRegister()">🚀 開始冒險！尋找水源</button>
   </div>
+  </div>
 </div>
 
 <!-- ===== SCREEN 2: GAME ===== -->
@@ -223,6 +225,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
       <span class="brand-sub-h">台灣唯一火山岩礦泉水</span>
     </div>
     <div class="fm-badge">全家上架中</div>
+    <button id="mute-btn" onclick="toggleMute()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;color:#fff;font-size:14px;cursor:pointer;">🔊</button>
   </div>
   <div id="hud">
     <div class="hud-item"><div class="hud-label">⏱ 時間</div><div class="hud-val" id="h-time">60</div></div>
@@ -350,6 +353,122 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 </div>
 
 <script>
+// ====== AUDIO ENGINE ======
+let audioCtx=null, masterGain=null, isMuted=false;
+
+function initAudio(){
+  if(audioCtx) return;
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  masterGain=audioCtx.createGain();
+  masterGain.gain.value=0.18;
+  masterGain.connect(audioCtx.destination);
+  playAmbient();
+}
+
+function toggleMute(){
+  isMuted=!isMuted;
+  masterGain.gain.setTargetAtTime(isMuted?0:0.18,audioCtx.currentTime,0.3);
+  document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';
+}
+
+// 水流環境音 — 白噪音 + 濾波
+function playAmbient(){
+  if(!audioCtx) return;
+  // 白噪音水流
+  const bufSize=audioCtx.sampleRate*4;
+  const buf=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
+  const data=buf.getChannelData(0);
+  for(let i=0;i<bufSize;i++) data[i]=(Math.random()*2-1)*0.4;
+  const src=audioCtx.createBufferSource();
+  src.buffer=buf; src.loop=true;
+  const bp=audioCtx.createBiquadFilter();
+  bp.type='bandpass'; bp.frequency.value=600; bp.Q.value=0.8;
+  const lp=audioCtx.createBiquadFilter();
+  lp.type='lowpass'; lp.frequency.value=900;
+  const g=audioCtx.createGain(); g.gain.value=0.35;
+  // 水流起伏 LFO
+  const lfo=audioCtx.createOscillator();
+  const lfoG=audioCtx.createGain(); lfoG.gain.value=180;
+  lfo.frequency.value=0.18; lfo.connect(lfoG); lfoG.connect(bp.frequency);
+  lfo.start();
+  src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(masterGain);
+  src.start();
+  // 水滴音符旋律
+  playMelody();
+}
+
+// 水晶音符旋律
+function playMelody(){
+  if(!audioCtx) return;
+  // 水的五聲音階 (Hz)
+  const notes=[523,659,784,880,1047,784,659,523,587,698,880,698,587];
+  let t=audioCtx.currentTime+0.5;
+  function scheduleNote(i){
+    if(!audioCtx||isMuted&&masterGain.gain.value===0) return;
+    const freq=notes[i%notes.length];
+    const osc=audioCtx.createOscillator();
+    const env=audioCtx.createGain();
+    const reverb=audioCtx.createConvolver();
+    // 簡易 reverb impulse
+    const irLen=audioCtx.sampleRate*1.2;
+    const ir=audioCtx.createBuffer(2,irLen,audioCtx.sampleRate);
+    for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let j=0;j<irLen;j++)d[j]=(Math.random()*2-1)*Math.pow(1-j/irLen,2);}
+    reverb.buffer=ir;
+    osc.type='sine';
+    osc.frequency.value=freq;
+    env.gain.setValueAtTime(0,t);
+    env.gain.linearRampToValueAtTime(0.22,t+0.04);
+    env.gain.exponentialRampToValueAtTime(0.001,t+1.2);
+    osc.connect(env); env.connect(reverb); reverb.connect(masterGain);
+    osc.start(t); osc.stop(t+1.3);
+    const gap=0.6+Math.random()*0.8;
+    t+=gap;
+    setTimeout(()=>scheduleNote(i+1),(gap-0.2)*1000);
+  }
+  scheduleNote(0);
+}
+
+// 收集水滴音效
+function playCoin(){
+  if(!audioCtx||isMuted) return;
+  const osc=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  osc.type='sine'; osc.frequency.setValueAtTime(880,audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(1320,audioCtx.currentTime+0.08);
+  g.gain.setValueAtTime(0.3,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.2);
+  osc.connect(g); g.connect(masterGain);
+  osc.start(); osc.stop(audioCtx.currentTime+0.2);
+}
+
+// 過關音效
+function playWin(){
+  if(!audioCtx) return;
+  const notes=[523,659,784,1047];
+  notes.forEach((f,i)=>{
+    const osc=audioCtx.createOscillator();
+    const g=audioCtx.createGain();
+    const t=audioCtx.currentTime+i*0.15;
+    osc.type='sine'; osc.frequency.value=f;
+    g.gain.setValueAtTime(0.3,t);
+    g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+    osc.connect(g); g.connect(masterGain);
+    osc.start(t); osc.stop(t+0.4);
+  });
+}
+
+// 時間警告音效
+function playWarn(){
+  if(!audioCtx||isMuted) return;
+  const osc=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  osc.type='square'; osc.frequency.value=220;
+  g.gain.setValueAtTime(0.08,audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);
+  osc.connect(g); g.connect(masterGain);
+  osc.start(); osc.stop(audioCtx.currentTime+0.15);
+}
+
 // ====== CONFIG — 貼上你的 Apps Script 網址 ======
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
 
@@ -405,6 +524,7 @@ function doRegister(){
   playerName=name; playerPhone=phone;
   playerEmail=document.getElementById('inp-email').value.trim();
   level=1;score=0;dropCount=0;
+  initAudio();
   showScreen('game');
   startLevel(1);
 }
@@ -463,6 +583,7 @@ function tick(){
   const el=document.getElementById('h-time');
   el.textContent=timeLeft;
   el.className='hud-val'+(timeLeft<=15?' warn':'');
+  if(timeLeft<=15&&timeLeft%2===0) playWarn();
   if(timeLeft<=0) endGame(false);
 }
 
@@ -473,7 +594,7 @@ function move(dx,dy){
   if(nx<0||ny<0||nx>=cfg.cols||ny>=cfg.rows||maze[ny][nx]===1)return;
   player.x=nx;player.y=ny;
   const di=drops.findIndex(d=>d.x===nx&&d.y===ny);
-  if(di!==-1){drops.splice(di,1);dropCount++;score+=10;document.getElementById('h-drops').textContent=dropCount;document.getElementById('h-score').textContent=score;}
+  if(di!==-1){drops.splice(di,1);dropCount++;score+=10;document.getElementById('h-drops').textContent=dropCount;document.getElementById('h-score').textContent=score;playCoin();}
   if(nx===goalPos.x&&ny===goalPos.y){
     gameActive=false;clearInterval(timerInt);
     score+=timeLeft*2;document.getElementById('h-score').textContent=score;
@@ -531,6 +652,7 @@ function afterQuiz(){
 function endGame(win){
   gameActive=false;clearInterval(timerInt);
   if(win){
+    playWin();
     const wFacts=['🏆 杜拜國際風味評鑑 亞洲唯一金獎','🥇 Monde Selection 世界品質評鑑特級金獎','💧 世界精品水協會認證 台灣唯一'];
     showOverlay('🏆','恭喜找到純淨水源！','你已成為巴部農水源守護者！\n查看你的冒險成績 💧','result','查看成績單',wFacts);
   } else {
