@@ -161,12 +161,18 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 <div id="screen-landing" class="screen active">
   <div class="brand-header">
     <div class="header-logo">
-      <span class="logo-natural">NATURAL</span>
-      <div class="brand-name-h">Babu<span>Long</span></div>
-      <span class="logo-mineral">Mineral Water · 巴部農天然鹼性礦泉水</span>
+      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
+      <div id="logo-fallback" style="display:none">
+        <span class="logo-natural">NATURAL</span>
+        <div class="brand-name-h">Babu<span>Long</span></div>
+        <span class="logo-mineral">Mineral Water · 巴部農天然鹼性礦泉水</span>
+      </div>
     </div>
     <div class="fm-badge">🏪 全家 FamilyMart</div>
   </div>
+  <style>
+  .logo-img{height:48px;width:auto;object-fit:contain;}
+  </style>
   <div class="hero">
     <div class="launch-badge">🎉 全家便利商店 全台上架中</div>
     <div class="award-row">
