@@ -171,8 +171,20 @@ canvas{display:block;border-radius:8px;border:1px solid rgba(91,184,212,.15);box
 .quiz-result{font-size:13px;margin-bottom:14px;color:var(--aqua);line-height:1.7;display:none;max-width:340px;}
 .btn-quiz-next{background:linear-gradient(135deg,#1a6091,#0f3460);color:#fff;border:none;padding:13px 36px;border-radius:30px;font-size:14px;font-weight:900;cursor:pointer;display:none;box-shadow:0 4px 20px rgba(26,96,145,.4);}
 
-/* SCREENSHOT CANVAS */
-#share-canvas{display:none;}
+/* CUSTOM MODAL */
+#modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,14,28,.85);z-index:50;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);}
+#modal-overlay.show{display:flex;}
+.modal-box{background:linear-gradient(160deg,#0a1f3a,#030f1e);border:1px solid rgba(91,184,212,.2);border-radius:24px 24px 0 0;padding:28px 24px 36px;width:100%;max-width:480px;animation:slideup .3s ease;}
+@keyframes slideup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px;font-family:Georgia,serif;}
+.modal-sub{font-size:12px;color:rgba(255,255,255,.45);margin-bottom:20px;line-height:1.7;}
+.modal-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.modal-step{display:flex;align-items:center;gap:12px;background:rgba(91,184,212,.06);border:1px solid rgba(91,184,212,.12);border-radius:12px;padding:10px 14px;}
+.modal-step-num{width:24px;height:24px;border-radius:50%;background:var(--mid);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;flex-shrink:0;}
+.modal-step-text{font-size:12px;color:rgba(255,255,255,.75);line-height:1.5;}
+.modal-btns{display:flex;gap:10px;}
+.modal-cancel{flex:1;padding:13px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:14px;cursor:pointer;}
+.modal-confirm{flex:2;padding:13px;border-radius:20px;border:none;background:linear-gradient(135deg,#1a6091,#0f3460);color:#fff;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 20px rgba(26,96,145,.4);}
 </style>
 </head>
 <body>
@@ -357,7 +369,24 @@ canvas{display:block;border-radius:8px;border:1px solid rgba(91,184,212,.15);box
   <button class="btn-quiz-next" id="quiz-next-btn" onclick="afterQuiz()">繼續冒險 →</button>
 </div>
 
-<canvas id="share-canvas"></canvas>
+<canvas id="share-canvas" style="display:none;"></canvas>
+
+<!-- CUSTOM MODAL -->
+<div id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title">📸 分享到 Instagram Story</div>
+    <div class="modal-sub">點擊確認後將依序執行以下動作：</div>
+    <div class="modal-steps">
+      <div class="modal-step"><div class="modal-step-num">1</div><div class="modal-step-text">下載成績卡圖片到您的裝置</div></div>
+      <div class="modal-step"><div class="modal-step-num">2</div><div class="modal-step-text">複製分享文案到剪貼簿</div></div>
+      <div class="modal-step"><div class="modal-step-num">3</div><div class="modal-step-text">跳轉至巴部農 @babulongwater IG 官方帳號</div></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-cancel" onclick="closeModal()">取消</button>
+      <button class="modal-confirm" onclick="confirmIG()">確認 · 前往 IG 💧</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const GAME_URL='https://babulongsoletester87-hub.github.io/collection/';
@@ -603,33 +632,37 @@ async function captureShareCard(){
 
 const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中！快來挑戰我！\n${GAME_URL}\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
 
+function closeModal(){document.getElementById('modal-overlay').classList.remove('show');}
+
+async function confirmIG(){
+  closeModal();
+  const text=SHARE_TEXT();
+  try{
+    const img=await captureShareCard();
+    const a=document.createElement('a');a.href=img;a.download='BabuLong_成績卡.png';a.click();
+    try{await navigator.clipboard.writeText(text);}catch(e){}
+  }catch(e){
+    try{await navigator.clipboard.writeText(text);}catch(e2){}
+  }
+  // 嘗試用 IG App 深度連結，失敗則開網頁版
+  setTimeout(()=>{
+    const appUrl='instagram://user?username='+IG_ID;
+    const webUrl='https://www.instagram.com/'+IG_ID+'/';
+    const iframe=document.createElement('iframe');
+    iframe.style.display='none'; document.body.appendChild(iframe);
+    iframe.src=appUrl;
+    setTimeout(()=>{document.body.removeChild(iframe);window.open(webUrl,'_blank');},1500);
+  },500);
+}
+
 async function shareResult(type){
   const text=SHARE_TEXT();
   if(type==='line'){
     try{await navigator.clipboard.writeText(text);}catch(e){}
     window.open('https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID),'_blank');
-    setTimeout(()=>alert('📋 分享文案已複製！\n包含遊戲連結，請貼給朋友一起挑戰 💧'),300);
+    setTimeout(()=>alert('📋 分享文案已複製！包含遊戲連結，請貼給朋友一起挑戰 💧'),300);
   } else if(type==='ig'){
-    // 顯示彈窗說明即將發生的動作
-    const confirmed=confirm(
-      '📸 即將執行以下動作：\n\n' +
-      '① 下載成績卡圖片到您的裝置\n' +
-      '② 複製分享文案到剪貼簿\n' +
-      '③ 跳轉至巴部農 Instagram 官方帳號\n\n' +
-      '請在 IG 發布 Story 時上傳圖片並貼上文案 💧\n\n' +
-      '確認繼續？'
-    );
-    if(!confirmed) return;
-    try{
-      const img=await captureShareCard();
-      const a=document.createElement('a');a.href=img;a.download='BabuLong_成績卡.png';a.click();
-      try{await navigator.clipboard.writeText(text);}catch(e){}
-      setTimeout(()=>window.open('https://www.instagram.com/'+IG_ID+'/','_blank'),600);
-    }catch(e){
-      try{await navigator.clipboard.writeText(text);}catch(e2){}
-      alert('📋 分享文案已複製！\n即將前往 @babulongwater IG 官方帳號');
-      setTimeout(()=>window.open('https://www.instagram.com/'+IG_ID+'/','_blank'),600);
-    }
+    document.getElementById('modal-overlay').classList.add('show');
   } else {
     const copyText=`🎮 來玩巴部農尋水冒險！\n${GAME_URL}\n\n💧 巴部農官方網站\n${BRAND_URL}\n\n${text}`;
     try{await navigator.clipboard.writeText(copyText);}catch(e){}
