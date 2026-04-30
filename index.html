@@ -598,36 +598,91 @@ function showResult(){
 
 function playAgain(){level=1;score=0;dropCount=0;showScreen('game');startLevel(1);}
 
-// ====== SCREENSHOT ======
-async function captureShareCard(){
-  const card=document.getElementById('share-card');
-  const w=card.offsetWidth,h=card.offsetHeight;
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-  <foreignObject width="${w}" height="${h}">
-    <div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px;background:linear-gradient(135deg,#020e1c,#0a1f3a,#020e1c);padding:22px 20px;font-family:Arial,sans-serif;color:#fff;border-radius:20px;border:1.5px solid rgba(200,168,75,.4);box-sizing:border-box;text-align:center;">
-      <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:3px;margin-bottom:10px;">NATURAL · BABULONG</div>
-      <div style="font-size:13px;color:#a8e6f0;margin-bottom:4px;">${playerName} 的成績</div>
-      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">在巴部農尋水冒險中拿到</div>
-      <div style="font-size:54px;font-weight:900;line-height:1;color:#fff;">${score}</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.4);margin:4px 0 14px;">分 · 挑戰我吧 💧</div>
-      <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#c8a84b,transparent);margin:0 auto 12px;"></div>
-      <div style="font-size:13px;font-weight:900;color:#c8a84b;">巴部農 BabuLong 天然鹼性礦泉水</div>
-      <div style="font-size:9px;color:rgba(255,255,255,.3);letter-spacing:1px;margin-top:4px;">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
-      <div style="font-size:10px;color:#5bb8d4;margin-top:6px;opacity:.7;">🏪 全家便利商店 · 現正熱賣中</div>
-    </div>
-  </foreignObject></svg>`;
-  return new Promise(res=>{
-    const blob=new Blob([svg],{type:'image/svg+xml'});
-    const url=URL.createObjectURL(blob);
-    const img=new Image();
-    img.onload=()=>{
-      const c=document.getElementById('share-canvas');
-      c.width=w*2;c.height=h*2;
-      const ctx=c.getContext('2d');ctx.scale(2,2);ctx.drawImage(img,0,0);
-      URL.revokeObjectURL(url);res(c.toDataURL('image/png'));
-    };
-    img.src=url;
-  });
+// ====== SCREENSHOT — Canvas 直接繪製（手機相容）======
+function captureShareCard(){
+  const c=document.getElementById('share-canvas');
+  const w=360,h=280;
+  c.width=w*2; c.height=h*2;
+  const ctx=c.getContext('2d');
+  ctx.scale(2,2);
+
+  // 背景漸層
+  const bg=ctx.createLinearGradient(0,0,w,h);
+  bg.addColorStop(0,'#020e1c'); bg.addColorStop(.5,'#0a1f3a'); bg.addColorStop(1,'#020e1c');
+  ctx.fillStyle=bg;
+  roundRect(ctx,0,0,w,h,16);
+  ctx.fill();
+
+  // 金色邊框
+  ctx.strokeStyle='rgba(200,168,75,.5)'; ctx.lineWidth=1.5;
+  roundRect(ctx,1,1,w-2,h-2,16); ctx.stroke();
+
+  // 頂部裝飾光
+  const glow=ctx.createRadialGradient(w/2,0,0,w/2,0,120);
+  glow.addColorStop(0,'rgba(91,184,212,.1)'); glow.addColorStop(1,'transparent');
+  ctx.fillStyle=glow; ctx.fillRect(0,0,w,h);
+
+  ctx.textAlign='center';
+
+  // LOGO 文字
+  ctx.font='bold 9px Arial'; ctx.letterSpacing='3px';
+  ctx.fillStyle='rgba(255,255,255,.3)'; ctx.fillText('NATURAL · BABULONG',w/2,30);
+
+  // 玩家名稱
+  ctx.font='13px Arial'; ctx.fillStyle='#a8e6f0';
+  ctx.fillText(playerName+' 的成績',w/2,52);
+
+  // 副標
+  ctx.font='11px Arial'; ctx.fillStyle='rgba(255,255,255,.4)';
+  ctx.fillText('在巴部農尋水冒險中拿到',w/2,70);
+
+  // 分數
+  ctx.font='bold 64px Arial'; ctx.fillStyle='#fff';
+  ctx.shadowColor='rgba(91,184,212,.5)'; ctx.shadowBlur=20;
+  ctx.fillText(score,w/2,148); ctx.shadowBlur=0;
+
+  // 分數單位
+  ctx.font='12px Arial'; ctx.fillStyle='rgba(255,255,255,.4)';
+  ctx.fillText('分 · 挑戰我吧 💧',w/2,172);
+
+  // 分隔線
+  ctx.beginPath();
+  const lg=ctx.createLinearGradient(w/2-30,0,w/2+30,0);
+  lg.addColorStop(0,'transparent'); lg.addColorStop(.5,'#c8a84b'); lg.addColorStop(1,'transparent');
+  ctx.strokeStyle=lg; ctx.lineWidth=1;
+  ctx.moveTo(w/2-40,188); ctx.lineTo(w/2+40,188); ctx.stroke();
+
+  // 品牌名
+  ctx.font='bold 14px Georgia'; ctx.fillStyle='#c8a84b';
+  ctx.fillText('巴部農 BabuLong 天然鹼性礦泉水',w/2,210);
+
+  // 標籤
+  ctx.font='9px Arial'; ctx.fillStyle='rgba(255,255,255,.3)';
+  ctx.fillText('台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡',w/2,228);
+
+  // 全家
+  ctx.font='10px Arial'; ctx.fillStyle='rgba(91,184,212,.6)';
+  ctx.fillText('🏪 全家便利商店 · 現正熱賣中',w/2,248);
+
+  // 獎項
+  ctx.font='9px Arial'; ctx.fillStyle='rgba(200,168,75,.6)';
+  ctx.fillText('🏆 杜拜金獎  🥇 Monde Selection  💧 世界精品水協會',w/2,268);
+
+  return c.toDataURL('image/png');
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);
+  ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
 }
 
 const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中！快來挑戰我！\n${GAME_URL}\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
