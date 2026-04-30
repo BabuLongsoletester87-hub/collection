@@ -6,148 +6,188 @@
 <title>BabuLong 巴部農 × 全家 — 尋找水源冒險</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-:root{--navy:#0f2541;--blue:#1a3e6e;--mid:#2563a8;--light:#6db8e8;--gold:#c8a84b;--white:#fff;--bg:#07172a;--green:#00833e;}
+:root{
+  --deep:#020e1c;--navy:#0a1f3a;--blue:#0f3460;--mid:#1a6091;
+  --light:#5bb8d4;--aqua:#a8e6f0;--gold:#c8a84b;--white:#fff;
+  --bg:#030f1e;--green:#00833e;
+}
 body{background:var(--bg);font-family:'Segoe UI',Arial,sans-serif;color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
 .screen{display:none;width:100%;max-width:480px;min-height:100vh;flex-direction:column;align-items:center;}
 .screen.active{display:flex;}
 
+/* WAVE BG */
+.wave-bg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:-1;overflow:hidden;pointer-events:none;}
+.wave-bg svg{position:absolute;bottom:0;width:100%;opacity:.07;}
+
 /* HEADER */
-.brand-header{width:100%;background:linear-gradient(135deg,#020c18,#041628);padding:20px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--gold);box-shadow:0 4px 24px rgba(0,0,0,.5);}
-.header-logo{display:flex;flex-direction:column;align-items:flex-start;}
-.brand-name-h{font-size:18px;font-weight:900;letter-spacing:.5px;font-family:Georgia,serif;}
-.brand-name-h span{color:var(--light);}
-.brand-sub-h{font-size:9px;color:var(--gold);letter-spacing:2px;margin-top:1px;}
-.fm-badge{background:var(--green);border-radius:16px;padding:4px 11px;font-size:10px;font-weight:800;letter-spacing:.5px;border:1px solid rgba(255,255,255,.2);}
-.logo-img{height:200px;width:auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 2px 20px rgba(109,184,232,.6));}
+.brand-header{width:100%;background:linear-gradient(180deg,rgba(2,14,28,0.98) 0%,rgba(10,31,58,0.95) 100%);padding:18px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(200,168,75,.3);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10;}
+.logo-img{height:72px;width:auto;object-fit:contain;filter:brightness(0) invert(1) drop-shadow(0 0 16px rgba(91,184,212,.5));}
+.fm-badge{background:linear-gradient(135deg,#006430,#008f45);border-radius:20px;padding:6px 14px;font-size:10px;font-weight:800;letter-spacing:.5px;border:1px solid rgba(255,255,255,.15);box-shadow:0 2px 12px rgba(0,131,62,.3);}
 
 /* LANDING */
-#screen-landing{justify-content:flex-start;padding-bottom:30px;}
-.hero{width:100%;background:linear-gradient(160deg,#020c18 0%,#0a1f3a 40%,#041628 100%);padding:28px 20px 24px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 60% 20%,rgba(109,184,232,.12) 0%,transparent 65%),radial-gradient(ellipse at 20% 80%,rgba(200,168,75,.06) 0%,transparent 50%);}
-.hero::after{content:'💧';position:absolute;font-size:180px;right:-30px;top:-20px;opacity:.04;pointer-events:none;}
-.award-row{display:flex;justify-content:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;position:relative;}
-.award-chip{background:rgba(200,168,75,.12);border:1px solid rgba(200,168,75,.5);border-radius:20px;padding:5px 12px;font-size:10px;color:var(--gold);letter-spacing:.5px;backdrop-filter:blur(4px);}
-.launch-badge{display:inline-block;background:linear-gradient(135deg,rgba(0,131,62,.9),rgba(0,100,48,.9));border-radius:20px;padding:6px 18px;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:16px;border:1px solid rgba(255,255,255,.15);box-shadow:0 4px 16px rgba(0,131,62,.3);}
-.hero h1{font-size:26px;font-weight:900;line-height:1.35;margin-bottom:10px;font-family:Georgia,serif;text-shadow:0 2px 16px rgba(0,0,0,.4);position:relative;}
-.hero h1 em{color:var(--light);font-style:normal;text-shadow:0 0 20px rgba(109,184,232,.4);}
-.hero p{font-size:13px;color:#cde;line-height:1.8;margin-bottom:18px;position:relative;opacity:.9;}
-.feature-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:24px;position:relative;}
-.feat-chip{background:linear-gradient(135deg,rgba(37,99,168,.4),rgba(15,37,65,.6));border:1px solid rgba(109,184,232,.3);border-radius:14px;padding:8px 14px;font-size:11px;color:var(--light);backdrop-filter:blur(8px);box-shadow:0 2px 12px rgba(0,0,0,.2);}
-.feat-chip strong{color:#fff;display:block;font-size:15px;font-weight:900;margin-bottom:1px;}
+#screen-landing{justify-content:flex-start;padding-bottom:40px;}
+
+/* HERO */
+.hero{width:100%;padding:32px 24px 28px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,rgba(2,14,28,0) 0%,rgba(10,31,58,.3) 100%);}
+.hero-water{position:absolute;bottom:0;left:0;right:0;height:80px;opacity:.15;}
+.launch-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(0,131,62,.85),rgba(0,100,48,.9));border-radius:30px;padding:7px 18px;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:18px;border:1px solid rgba(255,255,255,.12);box-shadow:0 4px 20px rgba(0,131,62,.25);}
+.award-row{display:flex;justify-content:center;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+.award-chip{background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.35);border-radius:30px;padding:5px 13px;font-size:10px;color:var(--gold);letter-spacing:.3px;}
+.hero h1{font-size:28px;font-weight:900;line-height:1.3;margin-bottom:12px;font-family:Georgia,serif;letter-spacing:-.3px;}
+.hero h1 em{color:var(--aqua);font-style:normal;position:relative;}
+.hero h1 em::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--aqua),transparent);border-radius:2px;}
+.hero p{font-size:13px;color:rgba(200,230,240,.8);line-height:1.9;margin-bottom:22px;}
+.feature-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.feat-chip{background:linear-gradient(135deg,rgba(15,52,96,.8),rgba(10,31,58,.9));border:1px solid rgba(91,184,212,.2);border-radius:16px;padding:10px 16px;font-size:11px;color:var(--aqua);backdrop-filter:blur(8px);min-width:72px;text-align:center;}
+.feat-chip strong{color:#fff;display:block;font-size:16px;font-weight:900;margin-bottom:2px;}
 
 /* FORM */
-.form-card-wrap{margin:16px 14px 0;position:relative;border-radius:22px;padding:2px;background:linear-gradient(160deg,#0a1f3a,#041628);}
-.form-card-wrap::before{content:'';position:absolute;inset:0;border-radius:22px;padding:2px;background:linear-gradient(var(--angle,0deg),#6db8e8,#c8a84b,#6db8e8,#041628,#6db8e8);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin-border 3s linear infinite;}
-@keyframes spin-border{to{--angle:360deg;}}
-@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false;}
-.form-card{background:linear-gradient(160deg,#0a1f3a,#041628);border-radius:20px;padding:24px;width:100%;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.4);overflow:hidden;}
-.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--light),var(--gold),transparent);border-radius:20px 20px 0 0;}
-.form-card::after{content:'';position:absolute;width:60px;height:60px;background:radial-gradient(circle,rgba(109,184,232,.9) 0%,rgba(200,168,75,.5) 40%,transparent 70%);border-radius:50%;animation:orbit 3s linear infinite;pointer-events:none;z-index:0;filter:blur(6px);}
-@keyframes orbit{0%{top:-10px;left:calc(50% - 30px);}25%{top:calc(50% - 30px);left:calc(100% - 20px);}50%{top:calc(100% - 20px);left:calc(50% - 30px);}75%{top:calc(50% - 30px);left:-20px;}100%{top:-10px;left:calc(50% - 30px);}}
+.form-wrap{width:calc(100% - 28px);margin:20px 14px 0;position:relative;}
+.form-glow{position:absolute;inset:-1px;border-radius:24px;background:linear-gradient(var(--ag,0deg),var(--aqua),var(--gold),var(--aqua),var(--deep),var(--aqua));animation:ag 4s linear infinite;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:1.5px;}
+@keyframes ag{to{--ag:360deg;}}
+@property --ag{syntax:'<angle>';initial-value:0deg;inherits:false;}
+.form-card{background:linear-gradient(160deg,rgba(10,31,58,.97),rgba(3,15,30,.98));border-radius:22px;padding:26px;position:relative;overflow:hidden;}
+.form-card::before{content:'';position:absolute;width:80px;height:80px;background:radial-gradient(circle,rgba(91,184,212,.6) 0%,rgba(200,168,75,.3) 50%,transparent 70%);border-radius:50%;animation:orb 4s linear infinite;pointer-events:none;filter:blur(8px);z-index:0;}
+@keyframes orb{0%{top:-20px;left:calc(50% - 40px);}25%{top:calc(50% - 40px);right:-20px;left:auto;}50%{bottom:-20px;top:auto;left:calc(50% - 40px);}75%{top:calc(50% - 40px);left:-20px;}100%{top:-20px;left:calc(50% - 40px);}}
 .form-card>*{position:relative;z-index:1;}
-.form-card h2{font-size:17px;font-weight:900;margin-bottom:4px;color:#fff;font-family:Georgia,serif;}
-.form-card p{font-size:11px;color:#8ab;margin-bottom:18px;line-height:1.6;}
-.form-group{margin-bottom:14px;}
-.form-group label{display:block;font-size:11px;color:var(--gold);margin-bottom:6px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
-.form-group input{width:100%;padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(109,184,232,.2);color:#fff;font-size:14px;outline:none;transition:all .2s;}
-.form-group input:focus{border-color:var(--gold);background:rgba(255,255,255,.07);box-shadow:0 0 0 3px rgba(200,168,75,.1);}
-.form-group input::placeholder{color:#456;}
-.consent{display:flex;align-items:flex-start;gap:8px;margin-bottom:18px;}
-.consent input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--gold);}
-.consent label{font-size:10px;color:#678;line-height:1.6;}
-.btn-primary{width:100%;padding:14px;border-radius:28px;border:none;background:linear-gradient(135deg,#1a5faa,#0d3d7a);color:#fff;font-size:16px;font-weight:900;cursor:pointer;letter-spacing:1.5px;transition:all .2s;box-shadow:0 4px 20px rgba(37,99,168,.5),inset 0 1px 0 rgba(255,255,255,.1);}
-.btn-primary:hover{opacity:.88;transform:translateY(-1px);}
+.form-title{font-size:18px;font-weight:900;margin-bottom:4px;color:#fff;font-family:Georgia,serif;letter-spacing:-.3px;}
+.form-sub{font-size:11px;color:rgba(168,230,240,.6);margin-bottom:20px;line-height:1.6;}
+.form-group{margin-bottom:16px;}
+.form-group label{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--gold);margin-bottom:7px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;}
+.form-group input{width:100%;padding:13px 16px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(91,184,212,.15);color:#fff;font-size:14px;outline:none;transition:all .25s;letter-spacing:.3px;}
+.form-group input:focus{border-color:rgba(91,184,212,.5);background:rgba(91,184,212,.06);box-shadow:0 0 0 3px rgba(91,184,212,.08),0 0 20px rgba(91,184,212,.1);}
+.form-group input::placeholder{color:rgba(255,255,255,.2);}
+.consent{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+.consent input[type=checkbox]{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--aqua);}
+.consent label{font-size:10px;color:rgba(255,255,255,.35);line-height:1.7;}
+.btn-start{width:100%;padding:15px;border-radius:30px;border:none;background:linear-gradient(135deg,#1a6091,#0f3460);color:#fff;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:1.5px;transition:all .25s;box-shadow:0 4px 24px rgba(26,96,145,.4),inset 0 1px 0 rgba(255,255,255,.1);position:relative;overflow:hidden;}
+.btn-start::before{content:'';position:absolute;top:-50%;left:-60%;width:40%;height:200%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-20deg);animation:shimmer 3s infinite;}
+@keyframes shimmer{0%{left:-60%;}100%{left:120%;}}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(26,96,145,.5);}
 
 /* GAME */
 #screen-game{padding:0;justify-content:flex-start;}
-#hud{width:100%;background:var(--navy);padding:7px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.4);}
+#hud{width:100%;background:linear-gradient(180deg,rgba(2,14,28,.98),rgba(10,31,58,.95));padding:8px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.2);backdrop-filter:blur(8px);}
 .hud-item{text-align:center;}
-.hud-label{font-size:9px;color:var(--light);letter-spacing:1px;text-transform:uppercase;}
-.hud-val{font-size:19px;font-weight:900;color:#fff;}
-.hud-val.warn{color:#f7a;}
-#canvas-wrap{width:100%;display:flex;justify-content:center;overflow:hidden;padding:6px 0;background:var(--bg);}
-canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
-#level-bar{width:100%;background:var(--navy);padding:5px 14px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--light);border-bottom:1px solid rgba(37,99,168,.3);}
-.level-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s;}
-.level-dot.done{background:var(--gold);}
-.level-dot.active{background:var(--light);box-shadow:0 0 8px var(--light);}
-#dpad{padding:8px 0 16px;display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--bg);width:100%;}
-.dpad-row{display:flex;gap:3px;}
-.dpad-btn{width:50px;height:50px;border-radius:10px;background:var(--navy);border:1.5px solid rgba(37,99,168,.5);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;-webkit-tap-highlight-color:transparent;user-select:none;}
-.dpad-btn:active{background:var(--mid);}
-.dpad-empty{width:50px;height:50px;}
+.hud-label{font-size:8px;color:var(--aqua);letter-spacing:1.5px;text-transform:uppercase;opacity:.7;}
+.hud-val{font-size:22px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;}
+.hud-val.warn{color:#ff8fa0;animation:pulse .5s infinite alternate;}
+@keyframes pulse{from{opacity:1;}to{opacity:.5;}}
+#canvas-wrap{width:100%;display:flex;justify-content:center;overflow:hidden;padding:8px 0;background:var(--bg);position:relative;}
+#canvas-wrap::before,#canvas-wrap::after{content:'';position:absolute;left:0;right:0;height:30px;z-index:1;pointer-events:none;}
+#canvas-wrap::before{top:0;background:linear-gradient(to bottom,var(--bg),transparent);}
+#canvas-wrap::after{bottom:0;background:linear-gradient(to top,var(--bg),transparent);}
+canvas{display:block;border-radius:8px;border:1px solid rgba(91,184,212,.15);box-shadow:0 0 30px rgba(91,184,212,.08);}
+#level-bar{width:100%;background:rgba(10,31,58,.9);padding:6px 16px;display:flex;align-items:center;gap:8px;font-size:10px;color:var(--aqua);border-bottom:1px solid rgba(91,184,212,.1);}
+.level-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.1);transition:all .4s;}
+.level-dot.done{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+.level-dot.active{background:var(--aqua);box-shadow:0 0 10px var(--aqua);}
+#dpad{padding:10px 0 20px;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--bg);width:100%;}
+.dpad-row{display:flex;gap:4px;}
+.dpad-btn{width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(15,52,96,.8),rgba(10,31,58,.9));border:1px solid rgba(91,184,212,.2);color:rgba(255,255,255,.8);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .1s;-webkit-tap-highlight-color:transparent;user-select:none;box-shadow:0 4px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.05);}
+.dpad-btn:active{background:linear-gradient(135deg,rgba(26,96,145,.9),rgba(15,52,96,.9));transform:scale(.94);border-color:rgba(91,184,212,.4);}
+.dpad-empty{width:54px;height:54px;}
+.mute-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 13px;color:#fff;font-size:14px;cursor:pointer;transition:all .2s;}
+.mute-btn:hover{background:rgba(255,255,255,.15);}
 
 /* RESULT */
-#screen-result{padding-bottom:40px;}
-.result-hero{width:100%;padding:24px 18px 18px;text-align:center;background:linear-gradient(160deg,var(--navy),#07172a);}
-.result-emoji{font-size:56px;margin-bottom:8px;}
-.result-hero h1{font-size:24px;font-weight:900;margin-bottom:4px;font-family:Georgia,serif;}
-.result-hero p{font-size:12px;color:#cde;}
-.awards-strip{display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap;}
-.award-mini{background:rgba(200,168,75,.15);border:1px solid var(--gold);border-radius:10px;padding:3px 8px;font-size:9px;color:var(--gold);}
-.score-card{margin:12px 14px 0;background:var(--navy);border-radius:16px;border:1px solid rgba(109,184,232,.25);overflow:hidden;width:calc(100% - 28px);}
-.score-card-header{background:rgba(37,99,168,.3);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.3);}
-.score-card-header .title{font-size:12px;color:var(--gold);font-weight:800;letter-spacing:.5px;}
-.score-card-body{padding:14px 16px;}
-.stat-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+#screen-result{padding-bottom:50px;}
+.result-hero{width:100%;padding:32px 20px 24px;text-align:center;background:linear-gradient(180deg,rgba(2,14,28,.98) 0%,rgba(10,31,58,.6) 100%);position:relative;overflow:hidden;}
+.result-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,var(--bg),transparent);}
+.result-emoji{font-size:64px;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(91,184,212,.4));}
+.result-hero h1{font-size:26px;font-weight:900;margin-bottom:6px;font-family:Georgia,serif;letter-spacing:-.3px;}
+.result-hero p{font-size:12px;color:rgba(200,230,240,.7);margin-bottom:14px;}
+.awards-strip{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;}
+.award-mini{background:rgba(200,168,75,.1);border:1px solid rgba(200,168,75,.3);border-radius:20px;padding:4px 10px;font-size:9px;color:var(--gold);}
+
+/* SCORE CARD */
+.score-card{margin:16px 14px 0;background:linear-gradient(160deg,rgba(10,31,58,.9),rgba(3,15,30,.95));border-radius:20px;border:1px solid rgba(91,184,212,.12);overflow:hidden;width:calc(100% - 28px);box-shadow:0 8px 32px rgba(0,0,0,.3);}
+.score-card-header{padding:14px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(200,168,75,.15);background:linear-gradient(90deg,rgba(200,168,75,.08),transparent);}
+.score-card-header .stitle{font-size:11px;color:var(--gold);font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+.score-card-body{padding:6px 18px 14px;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);}
 .stat-row:last-child{border:none;}
-.stat-label{font-size:12px;color:#88a;}
-.stat-val{font-size:14px;font-weight:800;color:#fff;}
-.share-preview{margin:12px 14px 0;background:linear-gradient(135deg,#0f2541,#1a3e6e);border-radius:16px;border:2px solid var(--gold);padding:18px;text-align:center;width:calc(100% - 28px);position:relative;overflow:hidden;}
-.share-preview::after{content:'💧';font-size:90px;position:absolute;right:-15px;bottom:-15px;opacity:.07;}
-.sp-awards{display:flex;justify-content:center;gap:5px;margin-bottom:10px;flex-wrap:wrap;}
-.sp-award{background:rgba(200,168,75,.2);border:1px solid var(--gold);border-radius:8px;padding:2px 7px;font-size:8px;color:var(--gold);}
-.sp-score{font-size:46px;font-weight:900;color:var(--light);line-height:1;}
-.sp-sub{font-size:11px;color:#88a;margin-top:3px;margin-bottom:12px;}
-.sp-brand{font-size:13px;font-weight:900;color:var(--gold);font-family:Georgia,serif;}
-.sp-tag{font-size:9px;color:#88a;letter-spacing:1px;margin-top:2px;}
-.sp-fm{font-size:10px;color:var(--light);margin-top:4px;}
-.facts-row{display:flex;gap:8px;margin:10px 14px 0;width:calc(100% - 28px);}
-.fact-chip{flex:1;background:var(--navy);border:1px solid rgba(109,184,232,.25);border-radius:12px;padding:10px 6px;text-align:center;font-size:10px;color:#aac;line-height:1.4;}
-.fact-chip strong{display:block;font-size:13px;color:var(--light);margin-bottom:2px;}
-.share-btns{display:flex;gap:8px;margin:10px 14px 0;width:calc(100% - 28px);}
-.btn-share{flex:1;padding:11px 4px;border-radius:12px;border:none;font-size:12px;font-weight:800;cursor:pointer;transition:opacity .2s;}
-.btn-line{background:#06c755;color:#fff;}
-.btn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff;}
-.btn-copy{background:var(--navy);color:var(--light);border:1px solid var(--mid);}
-.buy-cta{margin:10px 14px 0;width:calc(100% - 28px);background:linear-gradient(135deg,#006430,#00502a);border-radius:16px;padding:18px;text-align:center;box-shadow:0 4px 20px rgba(0,131,62,.25);border:1px solid rgba(255,255,255,.1);}
-.buy-cta h3{font-size:17px;font-weight:900;margin-bottom:6px;}
-.buy-cta p{font-size:12px;color:rgba(255,255,255,.82);margin-bottom:14px;line-height:1.7;}
-.btn-buy{width:100%;padding:13px;border-radius:28px;border:none;background:#fff;color:#006430;font-size:15px;font-weight:900;cursor:pointer;transition:opacity .2s;}
-.btn-play-again{margin:12px 14px 0;width:calc(100% - 28px);padding:11px;border-radius:28px;border:1.5px solid rgba(37,99,168,.5);background:transparent;color:var(--light);font-size:14px;font-weight:700;cursor:pointer;}
+.stat-label{font-size:12px;color:rgba(255,255,255,.4);}
+.stat-val{font-size:15px;font-weight:800;color:#fff;}
+
+/* SHARE CARD */
+.share-card-wrap{margin:14px 14px 0;width:calc(100% - 28px);}
+.share-card{background:linear-gradient(135deg,#020e1c,#0a1f3a,#020e1c);border-radius:20px;border:1.5px solid rgba(200,168,75,.4);padding:22px 20px;text-align:center;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+.share-card::before{content:'';position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(91,184,212,.08) 0%,transparent 70%);border-radius:50%;}
+.share-card::after{content:'';position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(200,168,75,.06) 0%,transparent 70%);border-radius:50%;}
+.sc-logo{font-size:11px;font-weight:900;color:rgba(255,255,255,.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;}
+.sc-name{font-size:13px;color:var(--aqua);margin-bottom:4px;}
+.sc-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.sc-score{font-size:54px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 30px rgba(91,184,212,.4);}
+.sc-unit{font-size:13px;color:rgba(255,255,255,.4);margin:4px 0 14px;}
+.sc-divider{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:0 auto 12px;}
+.sc-brand{font-size:14px;font-weight:900;color:var(--gold);font-family:Georgia,serif;letter-spacing:.5px;}
+.sc-tag{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:1px;margin-top:4px;}
+.sc-fm{font-size:10px;color:var(--aqua);margin-top:6px;opacity:.7;}
+
+/* FACTS */
+.facts-row{display:flex;gap:8px;margin:12px 14px 0;width:calc(100% - 28px);}
+.fact-chip{flex:1;background:linear-gradient(160deg,rgba(10,31,58,.8),rgba(3,15,30,.9));border:1px solid rgba(91,184,212,.12);border-radius:14px;padding:12px 6px;text-align:center;font-size:10px;color:rgba(255,255,255,.4);line-height:1.5;}
+.fact-chip strong{display:block;font-size:14px;color:var(--aqua);margin-bottom:3px;font-weight:900;}
+
+/* SHARE BTNS */
+.share-btns{display:flex;gap:8px;margin:12px 14px 0;width:calc(100% - 28px);}
+.btn-share{flex:1;padding:12px 4px;border-radius:14px;border:none;font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.3px;}
+.btn-share:hover{transform:translateY(-2px);}
+.btn-line{background:linear-gradient(135deg,#06c755,#04a344);color:#fff;box-shadow:0 4px 16px rgba(6,199,85,.25);}
+.btn-ig{background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af);color:#fff;box-shadow:0 4px 16px rgba(221,42,123,.25);}
+.btn-copy{background:linear-gradient(135deg,rgba(10,31,58,.9),rgba(3,15,30,.95));color:var(--aqua);border:1px solid rgba(91,184,212,.25);}
+
+/* BUY CTA */
+.buy-cta{margin:12px 14px 0;width:calc(100% - 28px);background:linear-gradient(135deg,rgba(0,100,48,.9),rgba(0,70,34,.95));border-radius:20px;padding:20px;text-align:center;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,131,62,.2);}
+.buy-cta h3{font-size:18px;font-weight:900;margin-bottom:8px;font-family:Georgia,serif;}
+.buy-cta p{font-size:12px;color:rgba(255,255,255,.75);margin-bottom:16px;line-height:1.8;}
+.btn-buy{width:100%;padding:14px;border-radius:30px;border:none;background:#fff;color:#006430;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(255,255,255,.15);}
+.btn-buy:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,255,255,.2);}
+.btn-play-again{margin:12px 14px 0;width:calc(100% - 28px);padding:12px;border-radius:30px;border:1px solid rgba(91,184,212,.2);background:transparent;color:rgba(91,184,212,.7);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-play-again:hover{background:rgba(91,184,212,.06);color:var(--aqua);}
 
 /* OVERLAY */
-#overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,23,42,.95);z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
+#overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,14,28,.96);z-index:20;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;backdrop-filter:blur(8px);}
 #overlay.show{display:flex;}
-#overlay .ov-icon{font-size:52px;margin-bottom:12px;}
-#overlay h2{font-size:24px;font-weight:900;color:var(--light);margin-bottom:8px;font-family:Georgia,serif;}
-#overlay p{font-size:14px;color:#cde;margin-bottom:20px;line-height:1.7;white-space:pre-line;}
-.ov-facts{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
-.ov-fact{background:rgba(37,99,168,.3);border:1px solid var(--mid);border-radius:10px;padding:6px 10px;font-size:11px;color:var(--light);}
+.ov-icon{font-size:56px;margin-bottom:14px;filter:drop-shadow(0 0 20px rgba(91,184,212,.5));}
+.ov-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:10px;font-family:Georgia,serif;}
+.ov-body{font-size:14px;color:rgba(200,230,240,.7);margin-bottom:22px;line-height:1.8;white-space:pre-line;}
+.ov-facts{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;}
+.ov-fact{background:rgba(91,184,212,.08);border:1px solid rgba(91,184,212,.2);border-radius:12px;padding:7px 12px;font-size:11px;color:var(--aqua);}
+.btn-ov{background:linear-gradient(135deg,#1a6091,#0f3460);color:#fff;border:none;padding:14px 40px;border-radius:30px;font-size:15px;font-weight:900;cursor:pointer;letter-spacing:1px;box-shadow:0 4px 24px rgba(26,96,145,.4);}
 
 /* QUIZ */
-#quiz-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,23,42,.97);z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
+#quiz-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,14,28,.97);z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;backdrop-filter:blur(12px);}
 #quiz-overlay.show{display:flex;}
-.quiz-q{font-size:16px;font-weight:700;color:#fff;margin-bottom:18px;line-height:1.6;}
-.quiz-opts{display:flex;flex-direction:column;gap:9px;width:100%;max-width:340px;margin-bottom:16px;}
-.quiz-btn{padding:12px;border-radius:12px;border:1.5px solid var(--mid);background:rgba(37,99,168,.2);color:#fff;font-size:13px;cursor:pointer;transition:background .15s;text-align:left;}
-.quiz-btn.correct{background:rgba(0,131,62,.4);border-color:#00c060;color:#a0ffc0;}
-.quiz-btn.wrong{background:rgba(180,30,30,.4);border-color:#e05050;color:#ffa0a0;}
-.quiz-result{font-size:14px;margin-bottom:14px;color:var(--light);line-height:1.6;display:none;}
+.quiz-icon{font-size:40px;margin-bottom:8px;}
+.quiz-label{font-size:11px;color:var(--gold);letter-spacing:2px;margin-bottom:14px;text-transform:uppercase;}
+.quiz-q{font-size:16px;font-weight:700;color:#fff;margin-bottom:20px;line-height:1.7;max-width:340px;}
+.quiz-opts{display:flex;flex-direction:column;gap:10px;width:100%;max-width:340px;margin-bottom:16px;}
+.quiz-btn{padding:13px 16px;border-radius:14px;border:1px solid rgba(91,184,212,.2);background:rgba(15,52,96,.5);color:#fff;font-size:13px;cursor:pointer;transition:all .15s;text-align:left;backdrop-filter:blur(4px);}
+.quiz-btn:hover{background:rgba(26,96,145,.6);border-color:rgba(91,184,212,.4);}
+.quiz-btn.correct{background:rgba(0,131,62,.3);border-color:rgba(0,192,96,.5);color:#a0ffc0;}
+.quiz-btn.wrong{background:rgba(180,30,30,.3);border-color:rgba(224,80,80,.5);color:#ffa0a0;}
+.quiz-result{font-size:13px;margin-bottom:14px;color:var(--aqua);line-height:1.7;display:none;max-width:340px;}
+.btn-quiz-next{background:linear-gradient(135deg,#1a6091,#0f3460);color:#fff;border:none;padding:13px 36px;border-radius:30px;font-size:14px;font-weight:900;cursor:pointer;display:none;box-shadow:0 4px 20px rgba(26,96,145,.4);}
+
+/* SCREENSHOT CANVAS */
+#share-canvas{display:none;}
 </style>
 </head>
 <body>
 
+<!-- WAVE BG -->
+<div class="wave-bg">
+  <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style="height:320px;">
+    <path fill="var(--aqua)" d="M0,160L48,176C96,192,192,224,288,218.7C384,213,480,171,576,160C672,149,768,171,864,186.7C960,203,1056,213,1152,202.7C1248,192,1344,160,1392,144L1440,128L1440,320L0,320Z"/>
+  </svg>
+</div>
+
 <!-- SCREEN 1: LANDING -->
 <div id="screen-landing" class="screen active">
   <div class="brand-header">
-    <div class="header-logo">
-      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
-      <div id="logo-fallback" style="display:none">
-        <div class="brand-name-h">Babu<span>Long</span></div>
-        <span class="brand-sub-h">天然鹼性礦泉水</span>
-      </div>
-    </div>
+    <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" onerror="this.style.display='none'">
     <div class="fm-badge">🏪 全家 FamilyMart</div>
   </div>
   <div class="hero">
@@ -157,50 +197,51 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
       <div class="award-chip">🥇 Monde Selection 特級金獎</div>
       <div class="award-chip">💧 世界精品水協會認證</div>
     </div>
-    <h1>踏上<em>尋找純淨水源</em><br>的冒險旅程！</h1>
-    <p>穿越神秘迷宮，找到台灣唯一火山岩礦泉水<br>源自新竹橫山 · 玄武岩層過濾 · 水齡4500年 💧</p>
+    <h1>踏上<em>尋找純淨水源</em><br>的冒險旅程</h1>
+    <p>穿越神秘迷宮，找到台灣唯一火山岩礦泉水<br>源自新竹橫山 · 玄武岩層過濾 · 水齡4500年</p>
     <div class="feature-row">
       <div class="feat-chip"><strong>pH 9.0</strong>天然鹼性</div>
       <div class="feat-chip"><strong>ORP -84</strong>抗氧化</div>
       <div class="feat-chip"><strong>4500年</strong>水齡</div>
       <div class="feat-chip"><strong>10+種</strong>礦物質</div>
     </div>
+    <svg class="hero-water" viewBox="0 0 1440 80" preserveAspectRatio="none">
+      <path fill="var(--aqua)" d="M0,40L60,45C120,50,240,60,360,58C480,56,600,42,720,37C840,32,960,38,1080,44C1200,50,1320,56,1380,59L1440,62L1440,80L0,80Z"/>
+    </svg>
   </div>
-  <div class="form-card-wrap">
-  <div class="form-card">
-    <h2>🗺 登錄解鎖冒險</h2>
-    <p>填寫資料即可開始遊戲，同時獲得巴部農全家上架優惠通知</p>
-    <div class="form-group">
-      <label>姓名 *</label>
-      <input type="text" id="inp-name" placeholder="請輸入您的姓名">
+  <div class="form-wrap">
+    <div class="form-glow"></div>
+    <div class="form-card">
+      <div class="form-title">🗺 登錄解鎖冒險</div>
+      <div class="form-sub">填寫資料即可開始遊戲，同時獲得巴部農全家上架優惠通知</div>
+      <div class="form-group">
+        <label>👤 姓名 *</label>
+        <input type="text" id="inp-name" placeholder="請輸入您的姓名">
+      </div>
+      <div class="form-group">
+        <label>📱 手機號碼 *</label>
+        <input type="tel" id="inp-phone" placeholder="09xxxxxxxx">
+      </div>
+      <div class="form-group">
+        <label>✉️ Email（選填）</label>
+        <input type="email" id="inp-email" placeholder="your@email.com">
+      </div>
+      <div class="consent">
+        <input type="checkbox" id="chk-consent">
+        <label for="chk-consent">我同意巴部農收集以上資料，用於會員通知及行銷，可隨時退訂。</label>
+      </div>
+      <button class="btn-start" onclick="doRegister()">💧 開始冒險 · 尋找水源</button>
     </div>
-    <div class="form-group">
-      <label>手機號碼 *</label>
-      <input type="tel" id="inp-phone" placeholder="09xxxxxxxx">
-    </div>
-    <div class="form-group">
-      <label>Email（選填）</label>
-      <input type="email" id="inp-email" placeholder="your@email.com">
-    </div>
-    <div class="consent">
-      <input type="checkbox" id="chk-consent">
-      <label for="chk-consent">我同意巴部農收集以上資料，用於會員通知及行銷，可隨時退訂。</label>
-    </div>
-    <button class="btn-primary" onclick="doRegister()">🚀 開始冒險！尋找水源</button>
-  </div>
   </div>
 </div>
 
 <!-- SCREEN 2: GAME -->
 <div id="screen-game" class="screen">
   <div class="brand-header">
-    <div class="header-logo">
-      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:48px;" onerror="this.style.display='none'">
-      <div class="brand-name-h" style="font-size:14px;display:none">Babu<span>Long</span></div>
-    </div>
+    <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:44px;" onerror="this.style.display='none'">
     <div style="display:flex;gap:8px;align-items:center;">
       <div class="fm-badge">全家上架中</div>
-      <button id="mute-btn" onclick="toggleMute()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 12px;color:#fff;font-size:14px;cursor:pointer;">🔊</button>
+      <button class="mute-btn" id="mute-btn" onclick="toggleMute()">🔊</button>
     </div>
   </div>
   <div id="hud">
@@ -209,11 +250,11 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
     <div class="hud-item"><div class="hud-label">🏆 分數</div><div class="hud-val" id="h-score">0</div></div>
   </div>
   <div id="level-bar">
-    <span style="font-size:10px;color:#88a;">關卡</span>
+    <span style="font-size:9px;color:rgba(255,255,255,.3);letter-spacing:1px;">LEVEL</span>
     <div class="level-dot active" id="ld1"></div>
     <div class="level-dot" id="ld2"></div>
     <div class="level-dot" id="ld3"></div>
-    <span id="lvl-txt" style="font-size:10px;color:var(--light);">1 / 3 · 新竹橫山水源地</span>
+    <span id="lvl-txt" style="font-size:10px;">1 / 3 · 新竹橫山水源地</span>
   </div>
   <div id="canvas-wrap"><canvas id="gc"></canvas></div>
   <div id="dpad">
@@ -238,9 +279,7 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 <!-- SCREEN 3: RESULT -->
 <div id="screen-result" class="screen">
   <div class="brand-header">
-    <div class="header-logo">
-      <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:48px;" onerror="this.style.display='none'">
-    </div>
+    <img src="https://raw.githubusercontent.com/BabuLongsoletester87-hub/collection/main/logo.png" class="logo-img" style="height:44px;" onerror="this.style.display='none'">
     <div class="fm-badge">全家上架中</div>
   </div>
   <div class="result-hero">
@@ -249,14 +288,14 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
     <p id="r-sub">你完成了所有關卡，成為巴部農水源守護者！</p>
     <div class="awards-strip">
       <div class="award-mini">🏆 杜拜國際金獎</div>
-      <div class="award-mini">🥇 Monde Selection 特級金獎</div>
+      <div class="award-mini">🥇 Monde Selection</div>
       <div class="award-mini">💧 世界精品水協會</div>
     </div>
   </div>
   <div class="score-card">
     <div class="score-card-header">
-      <div class="title">📊 冒險成績單</div>
-      <div style="font-size:11px;color:#88a;" id="r-playername"></div>
+      <div class="stitle">📊 冒險成績單</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.3);" id="r-playername"></div>
     </div>
     <div class="score-card-body">
       <div class="stat-row"><span class="stat-label">💧 收集水滴</span><span class="stat-val" id="r-drops">-</span></div>
@@ -270,20 +309,22 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
     <div class="fact-chip"><strong>4510年</strong>水齡認證</div>
     <div class="fact-chip"><strong>ORP -84</strong>天然抗氧化</div>
   </div>
-  <div class="share-preview">
-    <div class="sp-awards">
-      <div class="sp-award">🏆 杜拜金獎</div>
-      <div class="sp-award">🥇 Monde Selection</div>
-      <div class="sp-award">💧 世界精品水協會</div>
+
+  <!-- SHARE CARD (also used for screenshot) -->
+  <div class="share-card-wrap">
+    <div class="share-card" id="share-card">
+      <div class="sc-logo">NATURAL · BABULONG</div>
+      <div class="sc-name" id="sc-name">玩家</div>
+      <div class="sc-label">在巴部農尋水冒險中拿到</div>
+      <div class="sc-score" id="sc-score">0</div>
+      <div class="sc-unit">分 · 挑戰我吧 💧</div>
+      <div class="sc-divider"></div>
+      <div class="sc-brand">巴部農 BabuLong 天然鹼性礦泉水</div>
+      <div class="sc-tag">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
+      <div class="sc-fm">🏪 全家便利商店 · 現正熱賣中</div>
     </div>
-    <div style="font-size:13px;color:#cde;margin-bottom:4px;" id="sp-name">我的成績</div>
-    <div style="font-size:12px;color:#cde;margin-bottom:6px;">在 BabuLong 尋水冒險中拿到</div>
-    <div class="sp-score" id="sp-score">0</div>
-    <div class="sp-sub">分！挑戰我吧 💧</div>
-    <div class="sp-brand">巴部農 BabuLong 天然鹼性礦泉水</div>
-    <div class="sp-tag">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
-    <div class="sp-fm">🏪 全家便利商店 · 現正熱賣中</div>
   </div>
+
   <div class="share-btns">
     <button class="btn-share btn-line" onclick="shareResult('line')">LINE 分享</button>
     <button class="btn-share btn-ig" onclick="shareResult('ig')">IG Story</button>
@@ -300,172 +341,93 @@ canvas{display:block;border-radius:6px;border:1.5px solid rgba(37,99,168,.6);}
 <!-- OVERLAY -->
 <div id="overlay">
   <div class="ov-icon" id="ov-icon">💧</div>
-  <h2 id="ov-title"></h2>
-  <p id="ov-body"></p>
+  <div class="ov-title" id="ov-title"></div>
+  <div class="ov-body" id="ov-body"></div>
   <div class="ov-facts" id="ov-facts"></div>
-  <button class="btn-primary" style="max-width:280px;" onclick="overlayAction()" id="ov-btn">繼續</button>
+  <button class="btn-ov" onclick="overlayAction()" id="ov-btn">繼續</button>
 </div>
 
-<!-- QUIZ OVERLAY -->
+<!-- QUIZ -->
 <div id="quiz-overlay">
-  <div style="font-size:36px;margin-bottom:10px;">🧪</div>
-  <div style="font-size:12px;color:var(--gold);letter-spacing:1px;margin-bottom:8px;">關卡知識問答 · 答對得30分！</div>
+  <div class="quiz-icon">🧪</div>
+  <div class="quiz-label">關卡知識問答 · 答對得30分</div>
   <div class="quiz-q" id="quiz-q"></div>
   <div class="quiz-opts" id="quiz-opts"></div>
   <div class="quiz-result" id="quiz-result"></div>
-  <button class="btn-primary" style="max-width:240px;display:none;" id="quiz-next-btn" onclick="afterQuiz()">繼續冒險</button>
+  <button class="btn-quiz-next" id="quiz-next-btn" onclick="afterQuiz()">繼續冒險 →</button>
 </div>
 
-<script>
-// ====== AUDIO ENGINE ======
-let audioCtx=null,masterGain=null,isMuted=false;
+<canvas id="share-canvas"></canvas>
 
+<script>
+const GAME_URL='https://babulongsoletester87-hub.github.io/collection/';
+const SHEET_URL='https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
+const LINE_ID='@babulong';
+const IG_ID='babulongwater';
+
+// ====== AUDIO ======
+let audioCtx=null,masterGain=null,isMuted=false;
 function initAudio(){
   if(audioCtx) return;
   audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  masterGain=audioCtx.createGain();
-  masterGain.gain.value=0.18;
+  masterGain=audioCtx.createGain(); masterGain.gain.value=0.18;
   masterGain.connect(audioCtx.destination);
   playAmbient();
 }
-
 function toggleMute(){
   isMuted=!isMuted;
   masterGain.gain.setTargetAtTime(isMuted?0:0.18,audioCtx.currentTime,0.3);
   document.getElementById('mute-btn').textContent=isMuted?'🔇':'🔊';
 }
-
 function playAmbient(){
   if(!audioCtx) return;
-  const bufSize=audioCtx.sampleRate*4;
-  const buf=audioCtx.createBuffer(1,bufSize,audioCtx.sampleRate);
-  const data=buf.getChannelData(0);
-  for(let i=0;i<bufSize;i++) data[i]=(Math.random()*2-1)*0.4;
-  const src=audioCtx.createBufferSource();
-  src.buffer=buf; src.loop=true;
-  const bp=audioCtx.createBiquadFilter();
-  bp.type='bandpass'; bp.frequency.value=600; bp.Q.value=0.8;
-  const lp=audioCtx.createBiquadFilter();
-  lp.type='lowpass'; lp.frequency.value=900;
+  const sz=audioCtx.sampleRate*4,buf=audioCtx.createBuffer(1,sz,audioCtx.sampleRate),d=buf.getChannelData(0);
+  for(let i=0;i<sz;i++) d[i]=(Math.random()*2-1)*0.4;
+  const src=audioCtx.createBufferSource(); src.buffer=buf; src.loop=true;
+  const bp=audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=600; bp.Q.value=0.8;
+  const lp=audioCtx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=900;
   const g=audioCtx.createGain(); g.gain.value=0.35;
-  const lfo=audioCtx.createOscillator();
-  const lfoG=audioCtx.createGain(); lfoG.gain.value=180;
-  lfo.frequency.value=0.18; lfo.connect(lfoG); lfoG.connect(bp.frequency);
-  lfo.start();
-  src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(masterGain);
-  src.start();
+  const lfo=audioCtx.createOscillator(),lfoG=audioCtx.createGain(); lfoG.gain.value=180; lfo.frequency.value=0.18;
+  lfo.connect(lfoG); lfoG.connect(bp.frequency); lfo.start();
+  src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(masterGain); src.start();
   playMelody();
 }
-
 function playMelody(){
   if(!audioCtx) return;
   const notes=[523,659,784,880,1047,784,659,523,587,698,880,698,587];
   let t=audioCtx.currentTime+0.5;
-  function scheduleNote(i){
+  function sched(i){
     if(!audioCtx) return;
-    const freq=notes[i%notes.length];
-    const osc=audioCtx.createOscillator();
-    const env=audioCtx.createGain();
-    const irLen=audioCtx.sampleRate*1.2;
-    const ir=audioCtx.createBuffer(2,irLen,audioCtx.sampleRate);
-    for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let j=0;j<irLen;j++)d[j]=(Math.random()*2-1)*Math.pow(1-j/irLen,2);}
-    const reverb=audioCtx.createConvolver();
-    reverb.buffer=ir;
-    osc.type='sine'; osc.frequency.value=freq;
-    env.gain.setValueAtTime(0,t);
-    env.gain.linearRampToValueAtTime(0.22,t+0.04);
-    env.gain.exponentialRampToValueAtTime(0.001,t+1.2);
-    osc.connect(env); env.connect(reverb); reverb.connect(masterGain);
-    osc.start(t); osc.stop(t+1.3);
-    const gap=0.6+Math.random()*0.8;
-    t+=gap;
-    setTimeout(()=>scheduleNote(i+1),(gap-0.2)*1000);
+    const f=notes[i%notes.length],osc=audioCtx.createOscillator(),env=audioCtx.createGain();
+    const irL=audioCtx.sampleRate*1.2,ir=audioCtx.createBuffer(2,irL,audioCtx.sampleRate);
+    for(let c=0;c<2;c++){const dd=ir.getChannelData(c);for(let j=0;j<irL;j++)dd[j]=(Math.random()*2-1)*Math.pow(1-j/irL,2);}
+    const rv=audioCtx.createConvolver(); rv.buffer=ir;
+    osc.type='sine'; osc.frequency.value=f;
+    env.gain.setValueAtTime(0,t); env.gain.linearRampToValueAtTime(0.22,t+0.04); env.gain.exponentialRampToValueAtTime(0.001,t+1.2);
+    osc.connect(env); env.connect(rv); rv.connect(masterGain); osc.start(t); osc.stop(t+1.3);
+    const gap=0.6+Math.random()*0.8; t+=gap; setTimeout(()=>sched(i+1),(gap-0.2)*1000);
   }
-  scheduleNote(0);
+  sched(0);
 }
-
-function playCoin(){
+function tone(freq,type,dur,vol=0.3){
   if(!audioCtx||isMuted) return;
-  const osc=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  osc.type='sine'; osc.frequency.setValueAtTime(880,audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(1320,audioCtx.currentTime+0.08);
-  g.gain.setValueAtTime(0.3,audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.2);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(); osc.stop(audioCtx.currentTime+0.2);
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type=type; o.frequency.value=freq;
+  g.gain.setValueAtTime(vol,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+dur);
+  o.connect(g); g.connect(masterGain); o.start(); o.stop(audioCtx.currentTime+dur);
 }
-
-function playWin(){
-  if(!audioCtx) return;
-  [523,659,784,1047].forEach((f,i)=>{
-    const osc=audioCtx.createOscillator();
-    const g=audioCtx.createGain();
-    const t=audioCtx.currentTime+i*0.15;
-    osc.type='sine'; osc.frequency.value=f;
-    g.gain.setValueAtTime(0.3,t);
-    g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
-    osc.connect(g); g.connect(masterGain);
-    osc.start(t); osc.stop(t+0.4);
-  });
-}
-
-function playWarn(){
-  if(!audioCtx||isMuted) return;
-  const osc=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  osc.type='square'; osc.frequency.value=220;
-  g.gain.setValueAtTime(0.08,audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.15);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(); osc.stop(audioCtx.currentTime+0.15);
-}
-
-function playCorrect(){
-  if(!audioCtx) return;
-  [659,784,1047].forEach((f,i)=>{
-    const osc=audioCtx.createOscillator();
-    const g=audioCtx.createGain();
-    const t=audioCtx.currentTime+i*0.12;
-    osc.type='sine'; osc.frequency.value=f;
-    g.gain.setValueAtTime(0.25,t);
-    g.gain.exponentialRampToValueAtTime(0.001,t+0.3);
-    osc.connect(g); g.connect(masterGain);
-    osc.start(t); osc.stop(t+0.3);
-  });
-}
-
+function playCoin(){[880,1320].forEach((f,i)=>{setTimeout(()=>tone(f,'sine',.15,.25),i*70);});}
+function playWin(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,'sine',.4,.28),i*150));}
+function playWarn(){tone(220,'square',.15,.08);}
+function playCorrect(){[659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,'sine',.3,.22),i*120));}
 function playWrong(){
   if(!audioCtx) return;
-  const osc=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  osc.type='sawtooth';
-  osc.frequency.setValueAtTime(300,audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(150,audioCtx.currentTime+0.3);
-  g.gain.setValueAtTime(0.2,audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
-  osc.connect(g); g.connect(masterGain);
-  osc.start(); osc.stop(audioCtx.currentTime+0.3);
+  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+  o.type='sawtooth'; o.frequency.setValueAtTime(300,audioCtx.currentTime); o.frequency.exponentialRampToValueAtTime(150,audioCtx.currentTime+0.3);
+  g.gain.setValueAtTime(0.18,audioCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);
+  o.connect(g); g.connect(masterGain); o.start(); o.stop(audioCtx.currentTime+0.3);
 }
-
-function playLevelUp(){
-  if(!audioCtx) return;
-  [523,659,784,880,1047].forEach((f,i)=>{
-    const osc=audioCtx.createOscillator();
-    const g=audioCtx.createGain();
-    const t=audioCtx.currentTime+i*0.1;
-    osc.type='sine'; osc.frequency.value=f;
-    g.gain.setValueAtTime(0.28,t);
-    g.gain.exponentialRampToValueAtTime(0.001,t+0.5);
-    osc.connect(g); g.connect(masterGain);
-    osc.start(t); osc.stop(t+0.5);
-  });
-}
-
-// ====== CONFIG ======
-const SHEET_URL='https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
-const LINE_ID='@babulong';
-const IG_ID='babulongwater';
+function playLevelUp(){[523,659,784,880,1047].forEach((f,i)=>setTimeout(()=>tone(f,'sine',.5,.26),i*100));}
 
 // ====== STATE ======
 let playerName='',playerPhone='',playerEmail='';
@@ -477,10 +439,9 @@ const LEVELS=[
   {cols:15,rows:15,drops:9,time:70,name:'火山岩礦脈探索'},
   {cols:17,rows:17,drops:12,time:80,name:'巴部農純淨水源'},
 ];
-
 const QUIZZES=[
   {q:'巴部農礦泉水的水齡大約是多少年？',opts:['約100年','約1000年','約4500年','約200年'],ans:2,info:'經C14加速器質譜儀定年，水齡達4510年！'},
-  {q:'巴部農是台灣唯一什麼類型的礦泉水？',opts:['冰川礦泉水','火山岩礦泉水','地下湖礦泉水','海洋深層水'],ans:1,info:'台灣上百家水廠，符合CNS12700的僅4家，巴部農是唯一火山岩礦泉水！'},
+  {q:'巴部農是台灣唯一什麼類型的礦泉水？',opts:['冰川礦泉水','火山岩礦泉水','地下湖礦泉水','海洋深層水'],ans:1,info:'台灣上百家水廠符合CNS12700的僅4家，巴部農是唯一火山岩礦泉水！'},
   {q:'巴部農的pH值是多少？',opts:['pH 7.0','pH 7.5','pH 8.5','pH 9.0'],ans:3,info:'天然鹼性pH9.0，非電解人工鹼水！'},
 ];
 
@@ -490,107 +451,68 @@ function showScreen(id){
   window.scrollTo(0,0);
 }
 
-function submitToSheet(finalScore,finalDrops,finalLevels,finalTime){
+function submitToSheet(s,dr,lv,t){
   if(!SHEET_URL) return;
-  const params=new URLSearchParams({name:playerName,phone:playerPhone,email:playerEmail,score:finalScore,drops:finalDrops,levels:finalLevels+' / 3 關',timeLeft:finalTime,platform:/Mobi|Android/i.test(navigator.userAgent)?'Mobile':'Desktop',consent:'true'});
-  new Image().src=SHEET_URL+'?'+params.toString();
+  new Image().src=SHEET_URL+'?'+new URLSearchParams({name:playerName,phone:playerPhone,email:playerEmail,score:s,drops:dr,levels:lv+' / 3 關',timeLeft:t,platform:/Mobi|Android/i.test(navigator.userAgent)?'Mobile':'Desktop',consent:'true'}).toString();
 }
 
 function doRegister(){
   const name=document.getElementById('inp-name').value.trim();
   const phone=document.getElementById('inp-phone').value.trim();
-  const consent=document.getElementById('chk-consent').checked;
   if(!name){alert('請輸入姓名');return;}
-  if(!/^09\d{8}$/.test(phone)){alert('請輸入正確手機號碼（09xxxxxxxx）');return;}
-  if(!consent){alert('請勾選同意條款');return;}
-  playerName=name; playerPhone=phone;
-  playerEmail=document.getElementById('inp-email').value.trim();
+  if(!/^09\d{8}$/.test(phone)){alert('請輸入正確手機號碼');return;}
+  if(!document.getElementById('chk-consent').checked){alert('請勾選同意條款');return;}
+  playerName=name; playerPhone=phone; playerEmail=document.getElementById('inp-email').value.trim();
   level=1;score=0;dropCount=0;
-  initAudio();
-  showScreen('game');
-  startLevel(1);
+  initAudio(); showScreen('game'); startLevel(1);
 }
 
-function genMaze(cols,rows){
-  const w=Array.from({length:rows},()=>Array(cols).fill(1));
-  function carve(x,y){
-    w[y][x]=0;
-    [[0,-2],[0,2],[-2,0],[2,0]].sort(()=>Math.random()-.5).forEach(([dx,dy])=>{
-      const nx=x+dx,ny=y+dy;
-      if(nx>0&&nx<cols-1&&ny>0&&ny<rows-1&&w[ny][nx]===1){w[y+dy/2][x+dx/2]=0;carve(nx,ny);}
-    });
-  }
+function genMaze(c,r){
+  const w=Array.from({length:r},()=>Array(c).fill(1));
+  function carve(x,y){w[y][x]=0;[[0,-2],[0,2],[-2,0],[2,0]].sort(()=>Math.random()-.5).forEach(([dx,dy])=>{const nx=x+dx,ny=y+dy;if(nx>0&&nx<c-1&&ny>0&&ny<r-1&&w[ny][nx]===1){w[y+dy/2][x+dx/2]=0;carve(nx,ny);}});}
   carve(1,1); return w;
 }
 
 function startLevel(lvl){
-  const cfg=LEVELS[lvl-1];
-  const C=document.getElementById('gc');
-  const wrap=document.getElementById('canvas-wrap');
-  const maxW=Math.min(wrap.clientWidth-12,480);
-  const cell=Math.floor(maxW/cfg.cols);
+  const cfg=LEVELS[lvl-1],C=document.getElementById('gc'),wrap=document.getElementById('canvas-wrap');
+  const maxW=Math.min(wrap.clientWidth-12,480),cell=Math.floor(maxW/cfg.cols);
   C.width=cell*cfg.cols; C.height=cell*cfg.rows; C._cell=cell;
-  maze=genMaze(cfg.cols,cfg.rows);
-  player={x:1,y:1};
-  goalPos={x:cfg.cols-2,y:cfg.rows-2};
-  maze[goalPos.y][goalPos.x]=0;
+  maze=genMaze(cfg.cols,cfg.rows); player={x:1,y:1}; goalPos={x:cfg.cols-2,y:cfg.rows-2}; maze[goalPos.y][goalPos.x]=0;
   const open=[];
-  for(let y=0;y<cfg.rows;y++) for(let x=0;x<cfg.cols;x++){
-    if(maze[y][x]===0&&!(x===1&&y===1)&&!(x===goalPos.x&&y===goalPos.y)) open.push({x,y});
-  }
-  open.sort(()=>Math.random()-.5);
-  drops=open.slice(0,cfg.drops);
-  timeLeft=cfg.time;
-  document.getElementById('h-time').textContent=timeLeft;
-  document.getElementById('h-time').className='hud-val';
+  for(let y=0;y<cfg.rows;y++) for(let x=0;x<cfg.cols;x++) if(maze[y][x]===0&&!(x===1&&y===1)&&!(x===goalPos.x&&y===goalPos.y)) open.push({x,y});
+  drops=open.sort(()=>Math.random()-.5).slice(0,cfg.drops);
+  timeLeft=cfg.time; document.getElementById('h-time').textContent=timeLeft; document.getElementById('h-time').className='hud-val';
   for(let i=1;i<=3;i++) document.getElementById('ld'+i).className='level-dot'+(i<lvl?' done':i===lvl?' active':'');
-  document.getElementById('lvl-txt').textContent=lvl+' / 3 · '+LEVELS[lvl-1].name;
-  clearInterval(timerInt);
-  timerInt=setInterval(tick,1000);
-  gameActive=true; draw();
+  document.getElementById('lvl-txt').textContent=lvl+' / 3 · '+cfg.name;
+  clearInterval(timerInt); timerInt=setInterval(tick,1000); gameActive=true; draw();
 }
 
 function tick(){
   if(!gameActive) return;
   timeLeft--;
   const el=document.getElementById('h-time');
-  el.textContent=timeLeft;
-  el.className='hud-val'+(timeLeft<=15?' warn':'');
+  el.textContent=timeLeft; el.className='hud-val'+(timeLeft<=15?' warn':'');
   if(timeLeft<=15&&timeLeft%2===0) playWarn();
   if(timeLeft<=0) endGame(false);
 }
 
 function move(dx,dy){
   if(!gameActive) return;
-  const cfg=LEVELS[level-1];
-  const nx=player.x+dx,ny=player.y+dy;
+  const cfg=LEVELS[level-1],nx=player.x+dx,ny=player.y+dy;
   if(nx<0||ny<0||nx>=cfg.cols||ny>=cfg.rows||maze[ny][nx]===1) return;
   player.x=nx; player.y=ny;
   const di=drops.findIndex(d=>d.x===nx&&d.y===ny);
   if(di!==-1){drops.splice(di,1);dropCount++;score+=10;document.getElementById('h-drops').textContent=dropCount;document.getElementById('h-score').textContent=score;playCoin();}
-  if(nx===goalPos.x&&ny===goalPos.y){
-    gameActive=false;clearInterval(timerInt);
-    score+=timeLeft*2;document.getElementById('h-score').textContent=score;
-    showQuiz(level-1); return;
-  }
+  if(nx===goalPos.x&&ny===goalPos.y){gameActive=false;clearInterval(timerInt);score+=timeLeft*2;document.getElementById('h-score').textContent=score;showQuiz(level-1);return;}
   draw();
 }
 
 let quizAnswered=false;
 function showQuiz(qi){
-  const q=QUIZZES[qi];
+  const q=QUIZZES[qi],optsEl=document.getElementById('quiz-opts');
   document.getElementById('quiz-q').textContent=q.q;
-  const optsEl=document.getElementById('quiz-opts');
-  optsEl.innerHTML='';
-  document.getElementById('quiz-result').style.display='none';
-  document.getElementById('quiz-next-btn').style.display='none';
-  quizAnswered=false;
-  q.opts.forEach((o,i)=>{
-    const btn=document.createElement('button');
-    btn.className='quiz-btn'; btn.textContent=o;
-    btn.onclick=()=>answerQuiz(i,q.ans,q.info,btn,optsEl);
-    optsEl.appendChild(btn);
-  });
+  optsEl.innerHTML=''; document.getElementById('quiz-result').style.display='none'; document.getElementById('quiz-next-btn').style.display='none'; quizAnswered=false;
+  q.opts.forEach((o,i)=>{const btn=document.createElement('button');btn.className='quiz-btn';btn.textContent=o;btn.onclick=()=>answerQuiz(i,q.ans,q.info,btn,optsEl);optsEl.appendChild(btn);});
   document.getElementById('quiz-overlay').classList.add('show');
 }
 
@@ -599,38 +521,21 @@ function answerQuiz(i,ans,info,btn,optsEl){
   const btns=optsEl.querySelectorAll('.quiz-btn');
   btns.forEach((b,idx)=>{b.style.pointerEvents='none';if(idx===ans)b.className='quiz-btn correct';});
   const res=document.getElementById('quiz-result');
-  if(i===ans){
-    btn.className='quiz-btn correct';
-    score+=30;document.getElementById('h-score').textContent=score;
-    res.innerHTML='✅ 答對了！+30分<br><small style="color:#88a">'+info+'</small>';
-    playCorrect();
-  } else {
-    btn.className='quiz-btn wrong';
-    btns[ans].className='quiz-btn correct';
-    res.innerHTML='❌ 答錯了！<br><small style="color:#88a">'+info+'</small>';
-    playWrong();
-  }
-  res.style.display='block';
-  document.getElementById('quiz-next-btn').style.display='block';
+  if(i===ans){btn.className='quiz-btn correct';score+=30;document.getElementById('h-score').textContent=score;res.innerHTML='✅ 答對了！+30分<br><small style="color:rgba(255,255,255,.4)">'+info+'</small>';playCorrect();}
+  else{btn.className='quiz-btn wrong';btns[ans].className='quiz-btn correct';res.innerHTML='❌ 答錯了！<br><small style="color:rgba(255,255,255,.4)">'+info+'</small>';playWrong();}
+  res.style.display='block'; document.getElementById('quiz-next-btn').style.display='block';
 }
 
 function afterQuiz(){
   document.getElementById('quiz-overlay').classList.remove('show');
-  if(level<3){
-    playLevelUp();
-    const facts=['💧 偏硅酸含量高達60mg/L，水中黃金！','🏔 水源地位於新竹橫山，被列為水源保護區。','🌿 「你喝水，我種樹」— ESG水源保護推動中！'];
-    showOverlay('💧','第 '+level+' 關完成！',facts[level-1],'next','下一關 →',[]);
-  } else { endGame(true); }
+  if(level<3){playLevelUp();const facts=['💧 偏硅酸含量高達60mg/L，水中黃金！','🏔 水源地位於新竹橫山，被列為水源保護區。','🌿「你喝水，我種樹」— ESG水源保護推動中！'];showOverlay('💧','第 '+level+' 關完成！',facts[level-1],'next','下一關 →',[]);}
+  else endGame(true);
 }
 
 function endGame(win){
-  gameActive=false;clearInterval(timerInt);
-  if(win){
-    playWin();
-    showOverlay('🏆','恭喜找到純淨水源！','你已成為巴部農水源守護者！\n查看你的冒險成績 💧','result','查看成績單',['🏆 杜拜國際風味評鑑 亞洲唯一金獎','🥇 Monde Selection 特級金獎','💧 世界精品水協會認證 台灣唯一']);
-  } else {
-    showOverlay('⏱','時間到了！','差一點就找到水源了，再試一次吧！\n全家便利商店有賣巴部農，補充能量繼續！','retry','再玩一次',[]);
-  }
+  gameActive=false; clearInterval(timerInt);
+  if(win){playWin();showOverlay('🏆','恭喜找到純淨水源！','你已成為巴部農水源守護者！\n查看你的冒險成績 💧','result','查看成績單',['🏆 杜拜國際風味評鑑 亞洲唯一金獎','🥇 Monde Selection 特級金獎','💧 世界精品水協會認證 台灣唯一']);}
+  else showOverlay('⏱','時間到了！','差一點就找到水源了，再試一次吧！\n全家便利商店有賣巴部農，補充能量繼續！','retry','再玩一次',[]);
 }
 
 function showOverlay(icon,title,body,action,btnTxt,facts){
@@ -642,81 +547,126 @@ function showOverlay(icon,title,body,action,btnTxt,facts){
   document.getElementById('ov-facts').innerHTML=facts.map(f=>`<div class="ov-fact">${f}</div>`).join('');
   document.getElementById('overlay').classList.add('show');
 }
-
 function overlayAction(){
   document.getElementById('overlay').classList.remove('show');
   if(overlayMode==='next'){level++;startLevel(level);}
   else if(overlayMode==='result') showResult();
-  else if(overlayMode==='retry'){level=1;score=0;dropCount=0;startLevel(1);}
+  else{level=1;score=0;dropCount=0;startLevel(1);}
 }
 
 function showResult(){
   submitToSheet(score,dropCount,level,timeLeft);
   showScreen('result');
   document.getElementById('r-playername').textContent=playerName;
-  document.getElementById('sp-name').textContent=playerName+'的成績';
   document.getElementById('r-drops').textContent=dropCount+' 個水滴';
   document.getElementById('r-score').textContent=score+' 分';
   document.getElementById('r-time').textContent=timeLeft+' 秒';
   document.getElementById('r-levels').textContent='3 / 3 關完成 🎉';
-  document.getElementById('sp-score').textContent=score;
+  document.getElementById('sc-name').textContent=playerName+' 的成績';
+  document.getElementById('sc-score').textContent=score;
 }
 
 function playAgain(){level=1;score=0;dropCount=0;showScreen('game');startLevel(1);}
 
-const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中！快來挑戰我！\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
+// ====== SCREENSHOT ======
+async function captureShareCard(){
+  const card=document.getElementById('share-card');
+  const w=card.offsetWidth,h=card.offsetHeight;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+  <foreignObject width="${w}" height="${h}">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;height:${h}px;background:linear-gradient(135deg,#020e1c,#0a1f3a,#020e1c);padding:22px 20px;font-family:Arial,sans-serif;color:#fff;border-radius:20px;border:1.5px solid rgba(200,168,75,.4);box-sizing:border-box;text-align:center;">
+      <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:3px;margin-bottom:10px;">NATURAL · BABULONG</div>
+      <div style="font-size:13px;color:#a8e6f0;margin-bottom:4px;">${playerName} 的成績</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;">在巴部農尋水冒險中拿到</div>
+      <div style="font-size:54px;font-weight:900;line-height:1;color:#fff;">${score}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);margin:4px 0 14px;">分 · 挑戰我吧 💧</div>
+      <div style="width:40px;height:1px;background:linear-gradient(90deg,transparent,#c8a84b,transparent);margin:0 auto 12px;"></div>
+      <div style="font-size:13px;font-weight:900;color:#c8a84b;">巴部農 BabuLong 天然鹼性礦泉水</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.3);letter-spacing:1px;margin-top:4px;">台灣唯一火山岩礦泉水 · pH9.0 · 4500年水齡</div>
+      <div style="font-size:10px;color:#5bb8d4;margin-top:6px;opacity:.7;">🏪 全家便利商店 · 現正熱賣中</div>
+    </div>
+  </foreignObject></svg>`;
+  return new Promise(res=>{
+    const blob=new Blob([svg],{type:'image/svg+xml'});
+    const url=URL.createObjectURL(blob);
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.getElementById('share-canvas');
+      c.width=w*2;c.height=h*2;
+      const ctx=c.getContext('2d');ctx.scale(2,2);ctx.drawImage(img,0,0);
+      URL.revokeObjectURL(url);res(c.toDataURL('image/png'));
+    };
+    img.src=url;
+  });
+}
+
+const SHARE_TEXT=()=>`我在 BabuLong 巴部農尋水冒險中拿到 ${score} 分！💧\n\n台灣唯一火山岩礦泉水 · pH9.0天然鹼性 · 4500年水齡\n🏆 杜拜金獎 · Monde Selection特級金獎\n\n🏪 全家便利商店現正熱賣中！快來挑戰我！\n${GAME_URL}\n\n追蹤 @${IG_ID} · 加入 LINE ${LINE_ID}\n#BabuLong #巴部農 #天然鹼性礦泉水 #全家便利商店`;
 
 async function shareResult(type){
   const text=SHARE_TEXT();
   if(type==='line'){
     try{await navigator.clipboard.writeText(text);}catch(e){}
     window.open('https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID),'_blank');
-    setTimeout(()=>alert('📋 分享文案已複製！\n請在 LINE 貼上文字分享給朋友 💧'),300);
+    setTimeout(()=>alert('📋 分享文案已複製！\n包含遊戲連結，請貼給朋友一起挑戰 💧'),300);
   } else if(type==='ig'){
-    try{await navigator.clipboard.writeText(text);}catch(e){}
-    alert('📋 分享文案已複製！\n\n請開啟 Instagram → 新增 Story → 貼上文案並標記 @babulongwater 💧');
-    window.open('https://www.instagram.com/babulongwater/','_blank');
+    try{
+      const img=await captureShareCard();
+      const a=document.createElement('a');a.href=img;a.download='BabuLong_成績卡.png';a.click();
+      await navigator.clipboard.writeText(text);
+      setTimeout(()=>{alert('✅ 成績卡圖片已下載！分享文案已複製！\n\n請開啟 Instagram → 新增 Story → 上傳圖片 → 貼上文案標記 @babulongwater 💧');
+      window.open('https://www.instagram.com/babulongwater/','_blank');},400);
+    }catch(e){
+      try{await navigator.clipboard.writeText(text);}catch(e2){}
+      alert('📋 分享文案已複製！\n請開啟 Instagram Story 貼上並標記 @babulongwater 💧');
+      window.open('https://www.instagram.com/babulongwater/','_blank');
+    }
   } else {
-    try{await navigator.clipboard.writeText(text);}catch(e){}
-    alert('✅ 文案已複製！可貼到任何社群平台 💧');
+    try{await navigator.clipboard.writeText(GAME_URL+'\n\n'+text);}catch(e){}
+    alert('✅ 遊戲連結與文案已複製！\n'+GAME_URL+'\n\n可貼到任何社群平台分享 💧');
   }
 }
 
 function goFamilyMart(){window.open('https://maps.google.com/?q=全家便利商店+附近','_blank');}
 
+// ====== DRAW ======
 function draw(){
-  const C=document.getElementById('gc');
-  const ctx=C.getContext('2d');
-  const cfg=LEVELS[level-1];
-  const cell=C._cell;
+  const C=document.getElementById('gc'),ctx=C.getContext('2d'),cfg=LEVELS[level-1],cell=C._cell;
   ctx.clearRect(0,0,C.width,C.height);
+  // Draw cells
   for(let y=0;y<cfg.rows;y++){
     for(let x=0;x<cfg.cols;x++){
       if(maze[y][x]===1){
-        ctx.fillStyle='#1a3e6e';
-        ctx.fillRect(x*cell,y*cell,cell,cell);
-        ctx.strokeStyle='#2563a8';ctx.lineWidth=.4;
-        ctx.strokeRect(x*cell+1,y*cell+1,cell-2,cell-2);
+        const g=ctx.createLinearGradient(x*cell,y*cell,x*cell+cell,y*cell+cell);
+        g.addColorStop(0,'#0a1f3a');g.addColorStop(1,'#0f3460');
+        ctx.fillStyle=g;ctx.fillRect(x*cell,y*cell,cell,cell);
+        ctx.strokeStyle='rgba(26,96,145,.4)';ctx.lineWidth=.5;
+        ctx.strokeRect(x*cell+.5,y*cell+.5,cell-1,cell-1);
       } else {
-        ctx.fillStyle='#07172a';
-        ctx.fillRect(x*cell,y*cell,cell,cell);
+        ctx.fillStyle='#030f1e';ctx.fillRect(x*cell,y*cell,cell,cell);
       }
     }
   }
-  ctx.font=`${Math.max(cell-6,14)}px serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
+  const fs=Math.max(cell-6,12);
+  ctx.font=fs+'px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  // Goal glow
+  ctx.shadowColor='rgba(91,184,212,.8)';ctx.shadowBlur=12;
   ctx.fillText('🏁',goalPos.x*cell+cell/2,goalPos.y*cell+cell/2);
-  drops.forEach(d=>ctx.fillText('💧',d.x*cell+cell/2,d.y*cell+cell/2));
-  ctx.beginPath();
-  ctx.arc(player.x*cell+cell/2,player.y*cell+cell/2,cell*.32,0,Math.PI*2);
-  ctx.fillStyle='#6db8e8';ctx.fill();
-  ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.shadowBlur=0;
+  // Drops
+  drops.forEach(d=>{ctx.fillText('💧',d.x*cell+cell/2,d.y*cell+cell/2);});
+  // Player
+  const cx=player.x*cell+cell/2,cy=player.y*cell+cell/2,r=cell*.3;
+  const pg=ctx.createRadialGradient(cx-r*.2,cy-r*.2,0,cx,cy,r);
+  pg.addColorStop(0,'#a8e6f0');pg.addColorStop(1,'#1a6091');
+  ctx.shadowColor='rgba(91,184,212,.6)';ctx.shadowBlur=10;
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.shadowBlur=0;
 }
 
 document.addEventListener('keydown',e=>{
   const m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
-  const dir=m[e.key];
-  if(dir){e.preventDefault();move(...dir);}
+  const dir=m[e.key];if(dir){e.preventDefault();move(...dir);}
 });
 </script>
 </body>
