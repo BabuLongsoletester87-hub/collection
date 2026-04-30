@@ -361,6 +361,7 @@ canvas{display:block;border-radius:8px;border:1px solid rgba(91,184,212,.15);box
 
 <script>
 const GAME_URL='https://babulongsoletester87-hub.github.io/collection/';
+const BRAND_URL='https://www.babulong.com.tw/zh-TW';
 const SHEET_URL='https://script.google.com/macros/s/AKfycbxldqbU5xRt8k4E_BWcRAgHrUDzf6v9fCVvNlOzoynBv4GPlSd2yC8N4hmBDbzH4vwe/exec';
 const LINE_ID='@babulong';
 const IG_ID='babulongwater';
@@ -609,20 +610,30 @@ async function shareResult(type){
     window.open('https://line.me/R/ti/p/'+encodeURIComponent(LINE_ID),'_blank');
     setTimeout(()=>alert('📋 分享文案已複製！\n包含遊戲連結，請貼給朋友一起挑戰 💧'),300);
   } else if(type==='ig'){
+    // 顯示彈窗說明即將發生的動作
+    const confirmed=confirm(
+      '📸 即將執行以下動作：\n\n' +
+      '① 下載成績卡圖片到您的裝置\n' +
+      '② 複製分享文案到剪貼簿\n' +
+      '③ 跳轉至巴部農 Instagram 官方帳號\n\n' +
+      '請在 IG 發布 Story 時上傳圖片並貼上文案 💧\n\n' +
+      '確認繼續？'
+    );
+    if(!confirmed) return;
     try{
       const img=await captureShareCard();
       const a=document.createElement('a');a.href=img;a.download='BabuLong_成績卡.png';a.click();
-      await navigator.clipboard.writeText(text);
-      setTimeout(()=>{alert('✅ 成績卡圖片已下載！分享文案已複製！\n\n請開啟 Instagram → 新增 Story → 上傳圖片 → 貼上文案標記 @babulongwater 💧');
-      window.open('https://www.instagram.com/babulongwater/','_blank');},400);
+      try{await navigator.clipboard.writeText(text);}catch(e){}
+      setTimeout(()=>window.open('https://www.instagram.com/'+IG_ID+'/','_blank'),600);
     }catch(e){
       try{await navigator.clipboard.writeText(text);}catch(e2){}
-      alert('📋 分享文案已複製！\n請開啟 Instagram Story 貼上並標記 @babulongwater 💧');
-      window.open('https://www.instagram.com/babulongwater/','_blank');
+      alert('📋 分享文案已複製！\n即將前往 @babulongwater IG 官方帳號');
+      setTimeout(()=>window.open('https://www.instagram.com/'+IG_ID+'/','_blank'),600);
     }
   } else {
-    try{await navigator.clipboard.writeText(GAME_URL+'\n\n'+text);}catch(e){}
-    alert('✅ 遊戲連結與文案已複製！\n'+GAME_URL+'\n\n可貼到任何社群平台分享 💧');
+    const copyText=`🎮 來玩巴部農尋水冒險！\n${GAME_URL}\n\n💧 巴部農官方網站\n${BRAND_URL}\n\n${text}`;
+    try{await navigator.clipboard.writeText(copyText);}catch(e){}
+    alert('✅ 已複製以下連結與文案：\n\n🎮 遊戲：'+GAME_URL+'\n💧 官網：'+BRAND_URL+'\n\n可貼到任何社群平台分享 💧');
   }
 }
 
